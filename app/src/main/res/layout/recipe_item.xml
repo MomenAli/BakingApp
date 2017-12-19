@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/margin_large"
+    android:background="@drawable/rectangular_stroke"
+    android:orientation="horizontal">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/margin_small"
+        android:layout_marginLeft="@dimen/margin_small"
+        android:layout_marginTop="@dimen/margin_small"
+        android:layout_weight="10">
+
+        <TextView
+            android:id="@+id/recipeTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_sz_extra_large"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/recipe_title" />
+
+        <TextView
+            android:id="@+id/tvServingLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="@dimen/margin_small"
+            android:text="@string/serving_lebal"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/recipeTitle"
+            android:layout_marginLeft="@dimen/margin_small" />
+
+        <TextView
+            android:id="@+id/tvServingNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="@dimen/margin_small"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tvServingLabel"
+            tools:text="@string/serving_data"
+            android:layout_marginLeft="@dimen/margin_small" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <ImageView
+        android:layout_width="@dimen/image_width"
+        android:layout_height="@dimen/image_hight"
+        android:layout_marginBottom="@dimen/margin_large"
+        android:layout_marginLeft="@dimen/margin_large"
+        android:layout_marginRight="@dimen/margin_large"
+        android:layout_marginTop="@dimen/margin_large"
+        android:layout_weight="1"
+        android:layout_gravity="center_vertical"
+        android:id="@+id/imageView"
+        android:background="@drawable/placeholder_food"
+        android:contentDescription="@string/contentDescript_card" />
+</LinearLayout>

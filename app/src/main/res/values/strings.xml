@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">Baking App</string>
+    <string name="contentDescript_card">card shape view</string>
+
+    <!-- recipe card strings -->
+    <string name="recipe_title">Recipe Card</string>
+    <string name="ingredient_label">INGREDIENT : </string>
+    <string name="steps_label">BAKING STEPS :</string>
+    <string name="serving_lebal">SERVINGS : </string>
+    <string name="serving_data">10</string>
+
+    <!-- the fake data of the ingredient item-->
+    <string name="ingred_name">Ingredient Name</string>
+    <string name="unit">UNIT</string>
+    <string name="Q">10.00</string>
+
+    <!-- data of the steps -->
+    <string name="number_fake_data">25</string>
+    <string name="short_description_fake">Prep the cookie crust.</string>
+
+    <!-- fake data for Recipe title-->
+    <string name="recipe_name_fake">Nutella Pie</string>
+
+    <!-- step details activity -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="next_button">Next</string>
+    <string name="previous_button">Previous</string>
+    <string name="step_number_fake_data">10</string>
+    <string name="step_number_label">STEP :</string>
+    <string name="last_step_notification">this is the last step :)</string>
+    <string name="first_step_notification">this is the first step :)</string>
+</resources>

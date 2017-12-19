@@ -1,0 +1,55 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorPrimaryLight"
+    tools:context="com.example.momenali.bakingapp.StepDetailsFragment">
+
+
+    <com.google.android.exoplayer2.ui.SimpleExoPlayerView
+        android:id="@+id/player_View"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible"
+        android:layout_weight="35">
+
+    </com.google.android.exoplayer2.ui.SimpleExoPlayerView>
+
+    <TextView
+        android:id="@+id/tvStepDescription"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/hello_blank_fragment"
+        style="@style/pragraph_style"
+        android:layout_weight="50"
+        />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/buttons_layout_hight"
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:layout_margin="@dimen/margin_large">
+
+    <Button
+        android:layout_width="@dimen/buttons_layout_width"
+        android:layout_height="@dimen/buttons_layout_hight"
+        android:text="@string/next_button"
+        android:gravity="center_horizontal"
+        android:id="@+id/next_step_button"
+        android:layout_alignParentRight="true"
+        android:onClick="getNextStep"/>
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="@dimen/buttons_layout_width"
+        android:layout_height="@dimen/buttons_layout_hight"
+        android:layout_gravity="center_vertical"
+        android:text="@string/previous_button"
+        android:layout_alignParentLeft="true"
+        android:onClick="getPreviousStep"/>
+    </RelativeLayout>
+
+</LinearLayout>
