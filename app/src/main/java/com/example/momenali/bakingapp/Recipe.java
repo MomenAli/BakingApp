@@ -12,6 +12,7 @@ public class Recipe {
 
 
     public Recipe() {
+        id = -1;
     }
 
     public Recipe(int id, String name, String servings, String imageURL) {

@@ -18,6 +18,8 @@ import com.example.momenali.bakingapp.utils.RecipeJSONUtils;
 
 import org.json.JSONException;
 
+import java.io.IOException;
+
 public class StepDetialsActivity extends AppCompatActivity {
     private static final String TAG = "StepDetialsActivity";
     Step mStep;
@@ -56,6 +58,8 @@ public class StepDetialsActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
             return;
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
         StepDetailsFragment fragment = StepDetailsFragment.newInstance(mStep);
@@ -73,6 +77,8 @@ public class StepDetialsActivity extends AppCompatActivity {
         try {
             mStep = RecipeJSONUtils.getStep(getBaseContext(),mStep.getRecipeID(),Integer.parseInt(mStep.getId())+1);
         } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
 

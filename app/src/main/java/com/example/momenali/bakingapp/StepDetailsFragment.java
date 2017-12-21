@@ -1,8 +1,5 @@
 package com.example.momenali.bakingapp;
 
-import android.content.Context;
-import android.content.Intent;
-import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,7 +8,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.exoplayer2.DefaultLoadControl;
@@ -46,7 +42,8 @@ public class StepDetailsFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
 
     /* const used to save current postion in bundle */
-    private static final String POSTION_KEY = "postion";
+    private static final String VIDEO_POSTION_KEY = "videoPostion";
+
 
 
     boolean tabletLandSingle;
@@ -54,8 +51,7 @@ public class StepDetailsFragment extends Fragment {
 
 
     private SimpleExoPlayer mExoPlayer;
-
-    long currentPostion;
+    long currentVideoPostion;
     @BindView(R.id.player_View)
     SimpleExoPlayerView mPlayerView;
 
@@ -108,11 +104,11 @@ public class StepDetailsFragment extends Fragment {
         tvStepDescription.setText(mStep.getDescription());
 
         if (savedInstanceState != null){
-            currentPostion = savedInstanceState.getLong(POSTION_KEY);
+            currentVideoPostion = savedInstanceState.getLong(VIDEO_POSTION_KEY);
             if (mExoPlayer != null)
-            mExoPlayer.seekTo(currentPostion);
+            mExoPlayer.seekTo(currentVideoPostion);
         }
-        Log.d(TAG, "onCreateView: " +currentPostion);
+        Log.d(TAG, "onCreateView: " + currentVideoPostion);
         /*if(landScape = Configuration.ORIENTATION_LANDSCAPE == this.getResources().getConfiguration().orientation) {
             LinearLayout linearLayout = (LinearLayout) container.findViewById(R.id.land_linear_layout);
             if (linearLayout != null) tabletLandSingle = false;
@@ -190,7 +186,8 @@ public class StepDetailsFragment extends Fragment {
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putLong(POSTION_KEY,currentPostion);
+        outState.putLong(VIDEO_POSTION_KEY, currentVideoPostion);
+
         super.onSaveInstanceState(outState);
     }
 
@@ -198,7 +195,7 @@ public class StepDetailsFragment extends Fragment {
     public void onPause() {
         super.onPause();
         if (mExoPlayer != null) {
-            currentPostion = mExoPlayer.getCurrentPosition();
+            currentVideoPostion = mExoPlayer.getCurrentPosition();
             releasePlayer();
         }
     }
@@ -208,7 +205,7 @@ public class StepDetailsFragment extends Fragment {
         super.onResume();
         setUpVideo();
         if (mExoPlayer != null)
-        mExoPlayer.seekTo(currentPostion);
+        mExoPlayer.seekTo(currentVideoPostion);
     }
 
     private void releasePlayer(){

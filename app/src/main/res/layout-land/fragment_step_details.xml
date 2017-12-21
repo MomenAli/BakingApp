@@ -24,6 +24,7 @@
         android:layout_height="match_parent"
         android:text="@string/hello_blank_fragment"
         style="@style/pragraph_style"
+        android:layout_margin="@dimen/margin_medium"
         android:layout_weight="50"
         android:visibility="gone"
         />

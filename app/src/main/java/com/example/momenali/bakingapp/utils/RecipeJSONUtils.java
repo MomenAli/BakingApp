@@ -29,7 +29,7 @@ import javax.sql.DataSource;
 public class RecipeJSONUtils {
     private static final String TAG = "RecipeJSONUtils";
 
-    public static Recipe[] getRecipe(Context context) throws JSONException {
+    public static Recipe[] getRecipe(Context context , String JsonStr) throws JSONException, IOException {
         //definre the parameter of the page
 
 
@@ -38,7 +38,6 @@ public class RecipeJSONUtils {
         final String OWM_SERVING = "servings";
         final String OWM_IMAGE = "image";
 
-        String JsonStr = loadJSONFromAsset(context);
         Log.d(TAG, "getRecipe: " + JsonStr);
         JSONArray recipeJsonArray = new JSONArray(JsonStr);
         Log.d(TAG, "getRecipe: " + recipeJsonArray.length());
@@ -56,7 +55,7 @@ public class RecipeJSONUtils {
         return recipes;
     }
 
-    public static Ingredient[] getIngredients(Context context, int id) throws JSONException {
+    public static Ingredient[] getIngredients(Context context, int id) throws JSONException, IOException {
         //definre the parameter of the page
 
 
@@ -93,7 +92,7 @@ public class RecipeJSONUtils {
         return ingredients;
     }
 
-    public static Step[] getSteps(Context context, int id) throws JSONException {
+    public static Step[] getSteps(Context context, int id) throws JSONException, IOException {
         //definre the parameter of the page
 
 
@@ -134,7 +133,7 @@ public class RecipeJSONUtils {
         return steps;
     }
 
-    public static Step getStep(Context context, int recipeID, int stepID) throws JSONException {
+    public static Step getStep(Context context, int recipeID, int stepID) throws JSONException, IOException {
         //definre the parameter of the page
 
 
@@ -174,8 +173,9 @@ public class RecipeJSONUtils {
     }
 
     /* this function taken from stackoverFlow as reader fuction for the json file */
-    public static String loadJSONFromAsset(Context context) {
+    public static String loadJSONFromAsset(Context context) throws IOException {
         String json = null;
+        //json = NetworkUtils.getResponseFromHttpUrl();
         try {
             InputStream is = context.getAssets().open("recipesList.json");
 

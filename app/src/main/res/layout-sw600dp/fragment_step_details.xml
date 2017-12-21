@@ -32,25 +32,26 @@
         android:layout_height="@dimen/buttons_layout_hight"
         android:orientation="horizontal"
         android:layout_weight="1"
-        android:layout_margin="@dimen/margin_large">
+        android:layout_margin="@dimen/margin_large"
+        android:visibility="gone">
 
-    <Button
-        android:layout_width="@dimen/buttons_layout_width"
-        android:layout_height="@dimen/buttons_layout_hight"
-        android:text="@string/next_button"
-        android:gravity="center_horizontal"
-        android:id="@+id/next_step_button"
-        android:layout_alignParentRight="true"
-        android:onClick="getNextStep"/>
+        <Button
+            android:layout_width="@dimen/buttons_layout_width"
+            android:layout_height="@dimen/buttons_layout_hight"
+            android:text="@string/next_button"
+            android:gravity="center_horizontal"
+            android:id="@+id/next_step_button"
+            android:layout_alignParentRight="true"
+            android:onClick="getNextStep"/>
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="@dimen/buttons_layout_width"
-        android:layout_height="@dimen/buttons_layout_hight"
-        android:layout_gravity="center_vertical"
-        android:text="@string/previous_button"
-        android:layout_alignParentLeft="true"
-        android:onClick="getPreviousStep"/>
+        <Button
+            android:id="@+id/button"
+            android:layout_width="@dimen/buttons_layout_width"
+            android:layout_height="@dimen/buttons_layout_hight"
+            android:layout_gravity="center_vertical"
+            android:text="@string/previous_button"
+            android:layout_alignParentLeft="true"
+            android:onClick="getPreviousStep"/>
     </RelativeLayout>
 
 </LinearLayout>

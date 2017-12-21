@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ScrollView;
 
 import com.example.momenali.bakingapp.Ingredient;
 import com.example.momenali.bakingapp.IngredientsRecycleView;
@@ -20,6 +21,11 @@ import com.example.momenali.bakingapp.StepRecycleView;
 import com.example.momenali.bakingapp.utils.RecipeJSONUtils;
 
 import org.json.JSONException;
+
+import java.io.IOException;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 
 /**
@@ -33,9 +39,17 @@ import org.json.JSONException;
 public class DetailsFragment extends Fragment implements StepRecycleView.StepClickListener{
     private static final String TAG  = "DetailsFragment";
 
+    @BindView(R.id.svDetailsFragment)
+    ScrollView svMain;
+
     IngredientsRecycleView mIngredAdapter;
     StepRecycleView mStepAdapter;
     OnDetailsFragmentListener mListener;
+
+
+    private static final String SCROLL_POSTION_KEY = "scrollPostion";
+
+    private static final String STEP_POSTION_KEY = "stepPostion";
 
     Ingredient[] ingredients = new Ingredient[]{new Ingredient()};
     Step[] steps = new Step[]{new Step()};
@@ -95,8 +109,10 @@ public class DetailsFragment extends Fragment implements StepRecycleView.StepCli
             steps = RecipeJSONUtils.getSteps(viewRoot.getContext(),recipeID);
         } catch (JSONException e) {
             e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
+        ButterKnife.bind(this,viewRoot);
         // set up the ingredients RecyclerView
         RecyclerView ingredientRecyclerView = (RecyclerView) viewRoot.findViewById(R.id.rvIngredients);
         ingredientRecyclerView.setLayoutManager(new LinearLayoutManager(ingredientRecyclerView.getContext()));
@@ -111,11 +127,21 @@ public class DetailsFragment extends Fragment implements StepRecycleView.StepCli
         mStepAdapter.setmClickListener(this);
         stepRecyclerView.setAdapter(mStepAdapter);
 
+        if (savedInstanceState != null){
+            mStepAdapter.setSelectedPostion(savedInstanceState.getInt(STEP_POSTION_KEY));
+            svMain.scrollTo(0,savedInstanceState.getInt(SCROLL_POSTION_KEY));
+        }
+
         return viewRoot;
     }
 
 
-
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putInt(SCROLL_POSTION_KEY,svMain.getScrollY());
+        outState.putInt(STEP_POSTION_KEY,mStepAdapter.getSelectedPostion());
+        super.onSaveInstanceState(outState);
+    }
 
     @Override
     public void onAttach(Context context) {

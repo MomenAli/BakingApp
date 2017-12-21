@@ -38,4 +38,9 @@
     <dimen name="player_height">400dp</dimen>
     <dimen name="buttons_layout_hight">50dp</dimen>
     <dimen name="buttons_layout_width">150dp</dimen>
+
+
+    <!-- this the hight of the sperate line between the fragments -->
+    <dimen name="serprate_line">5dp</dimen>
+
 </resources>

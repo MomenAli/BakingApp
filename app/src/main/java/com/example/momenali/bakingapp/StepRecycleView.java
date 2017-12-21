@@ -27,6 +27,7 @@ import butterknife.ButterKnife;
 public class StepRecycleView extends RecyclerView.Adapter<StepRecycleView.ViewHolder> {
     private static final String TAG = "StepRecycleView";
     int selectedPostion = -1;
+
     StepClickListener mClickListener;
 
     public static final String INTENT_RECIPE_ID_EXTRA_KEY  ="recipeID";
@@ -49,6 +50,14 @@ public class StepRecycleView extends RecyclerView.Adapter<StepRecycleView.ViewHo
         Log.d(TAG, "onCreateViewHolder: ");
         View view = mInflater.inflate(R.layout.step_item,parent,false);
         return new ViewHolder(view);
+    }
+
+    public int getSelectedPostion() {
+        return selectedPostion;
+    }
+
+    public void setSelectedPostion(int selectedPostion) {
+        this.selectedPostion = selectedPostion;
     }
 
     @Override

@@ -2,6 +2,9 @@
     <string name="app_name">Baking App</string>
     <string name="contentDescript_card">card shape view</string>
 
+    <!-- error in the network-->
+    <string name="networkError">Can not connect to internet , Check your internet connection</string>
+
     <!-- recipe card strings -->
     <string name="recipe_title">Recipe Card</string>
     <string name="ingredient_label">INGREDIENT : </string>
@@ -29,4 +32,6 @@
     <string name="step_number_label">STEP :</string>
     <string name="last_step_notification">this is the last step :)</string>
     <string name="first_step_notification">this is the first step :)</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
 </resources>

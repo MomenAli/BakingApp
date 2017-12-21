@@ -33,9 +33,11 @@
     <!--number of columns in the main Activity gridView -->
     <integer name="column_number">1</integer>
 
-
     <!-- the dimens of the step details-->
     <dimen name="player_height">350dp</dimen>
     <dimen name="buttons_layout_hight">50dp</dimen>
     <dimen name="buttons_layout_width">150dp</dimen>
+
+    <!-- this the hight of the sperate line between the fragments -->
+    <dimen name="serprate_line">10dp</dimen>
 </resources>
