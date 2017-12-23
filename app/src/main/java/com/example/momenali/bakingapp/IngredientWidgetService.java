@@ -33,7 +33,7 @@ public class IngredientWidgetService extends IntentService {
         Bundle extas = intent.getExtras();
 
         int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(this, IngredientsWidget.class));
-        Log.d(IngredientsWidget.TAG, "onHandleIntent: " + appWidgetIds[0]);
+        //Log.d(IngredientsWidget.TAG, "onHandleIntent: " + appWidgetIds[0]);
 
         appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_grid_view);
         //Now update all widgets

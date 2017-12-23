@@ -1,9 +1,11 @@
 package com.example.momenali.bakingapp.ui;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Toast;
 
@@ -19,12 +21,15 @@ import java.io.IOException;
 
 public class StepDetialsActivity extends AppCompatActivity {
     private static final String TAG = "StepDetialsActivity";
+    public static final String STEP_NUMBER_TO_PERANTE = "data";
+
     Step mStep;
     String mJSONResult;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_step_detials);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Bundle extras = getIntent().getExtras();
 
@@ -94,4 +99,40 @@ public class StepDetialsActivity extends AppCompatActivity {
                 .replace(R.id.step_details_container,fragment)
                 .commit();
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d(TAG, "onPause: ");
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        Log.d(TAG, "onKeyDown: " + (keyCode == KeyEvent.KEYCODE_BACK));
+        return super.onKeyDown(keyCode, event);
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        Log.d(TAG, "onBackPressed: ");
+
+        super.onBackPressed();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(DetailActivity.TAG, "onDestroy: ");
+        Intent data = new Intent();
+        data.putExtra(STEP_NUMBER_TO_PERANTE, mStep.getId());
+        setResult(RESULT_OK, data);
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
 }

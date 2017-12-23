@@ -27,7 +27,7 @@
     <dimen name="image_width">140dp</dimen>
     <dimen name="image_hight">93dp</dimen>
     <!-- stroke dimen for shape -->
-    <dimen name="stroke_width">2dp</dimen>
+    <dimen name="stroke_width">7dp</dimen>
     <dimen name="shape_corner">7dp</dimen>
 
     <!--number of columns in the main Activity gridView -->
@@ -44,4 +44,6 @@ Refer to App Widget Documentation for margin information
 http://developer.android.com/guide/topics/appwidgets/index.html#CreatingLayout
     -->
     <dimen name="widget_margin">8dp</dimen>
+    <dimen name="widget_hight">250dp</dimen>
+    <dimen name="widget_width">250dp</dimen>
 </resources>

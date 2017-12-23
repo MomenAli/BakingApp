@@ -85,7 +85,12 @@ public class MainActivity extends AppCompatActivity  implements LoaderManager.Lo
         Log.d(TAG, "onLoadFinished: "+data);
         if (data == null){
             Toast.makeText(this,this.getResources().getString(R.string.networkError),Toast.LENGTH_LONG).show();
-            return;
+            //return;
+            try {
+                data = RecipeJSONUtils.loadJSONFromAsset(this.getBaseContext());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         mJSONResult = data;
         try {

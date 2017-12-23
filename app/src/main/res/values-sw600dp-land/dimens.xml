@@ -28,7 +28,7 @@
     <dimen name="image_width">140dp</dimen>
     <dimen name="image_hight">93dp</dimen>
     <!-- stroke dimen for shape -->
-    <dimen name="stroke_width">2dp</dimen>
+    <dimen name="stroke_width">7dp</dimen>
     <dimen name="shape_corner">7dp</dimen>
 
     <!--number of columns in the main Activity gridView -->

@@ -22,10 +22,18 @@
         </activity>
         <activity
             android:name=".ui.DetailActivity"
-            android:launchMode="singleTop" />
+            android:parentActivityName=".ui.MainActivity"
+            android:launchMode="singleTop" >
+            <meta-data android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.momenali.bakingapp.ui.MainActivity"/>
+        </activity>
         <activity
             android:name=".ui.StepDetialsActivity"
-            android:launchMode="singleTop" />
+            android:parentActivityName=".ui.DetailActivity"
+            android:launchMode="singleTop" >
+            <meta-data android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.momenali.bakingapp.ui.DetailActivity"/>
+        </activity>
 
         <service android:name="GridWidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />

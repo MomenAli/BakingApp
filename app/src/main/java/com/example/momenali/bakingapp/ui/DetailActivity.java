@@ -5,8 +5,11 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.example.momenali.bakingapp.R;
 import com.example.momenali.bakingapp.step.Step;
@@ -24,10 +27,11 @@ import butterknife.ButterKnife;
 
 public class DetailActivity extends AppCompatActivity implements DetailsFragment.OnDetailsFragmentListener{
 
-    private static final String TAG = "DetailActivity";
+    public static final String TAG = "DetailActivity";
     Boolean tablet;
     int recipeID;
     String mJSONResult;
+    private static final int REQEST_CODE = 990;
 
     private static final String STEP_DETAILS_VISIBLE_KEY = "visible";
 
@@ -40,6 +44,8 @@ public class DetailActivity extends AppCompatActivity implements DetailsFragment
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         ButterKnife.bind(this);
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
@@ -96,6 +102,47 @@ public class DetailActivity extends AppCompatActivity implements DetailsFragment
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResume: ");
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d(TAG, "onActivityResult: ");
+        if (resultCode == RESULT_OK && requestCode == REQEST_CODE) {
+            Log.d(TAG, "onActivityResult: in");
+            if (data.hasExtra(StepDetialsActivity.STEP_NUMBER_TO_PERANTE)) {
+                Toast.makeText(this, data.getExtras().getString(StepDetialsActivity.STEP_NUMBER_TO_PERANTE),
+                        Toast.LENGTH_SHORT).show();
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    /*@Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d(TAG, "onActivityResult: ");
+        if (resultCode == RESULT_OK ) {
+            if (data.hasExtra(StepDetialsActivity.STEP_NUMBER_TO_PERANTE)) {
+                Toast.makeText(this, data.getExtras().getString(StepDetialsActivity.STEP_NUMBER_TO_PERANTE),
+                        Toast.LENGTH_SHORT).show();
+            }
+        }
+    }*/
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        Log.d(TAG, "onKeyDown: ");
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Log.d(TAG, "onBackPressed: ");
+        super.onBackPressed();
+    }
 
     @Override
     public void onStepSelectListner(Step step) {
@@ -116,7 +163,7 @@ public class DetailActivity extends AppCompatActivity implements DetailsFragment
             extras.putParcelable(StepRecycleView.INTENT_STEP_EXTRA_KEY, step);
             extras.putString(MainActivity.INTENT_JSON_EXTRA_KEY,mJSONResult);
             intent.putExtras(extras);
-            startActivity(intent);
+            startActivityForResult(intent,REQEST_CODE);
         }
     }
 
