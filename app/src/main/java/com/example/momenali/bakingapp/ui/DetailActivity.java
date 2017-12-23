@@ -1,6 +1,7 @@
 package com.example.momenali.bakingapp.ui;
 
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -30,6 +31,7 @@ public class DetailActivity extends AppCompatActivity implements DetailsFragment
 
     private static final String STEP_DETAILS_VISIBLE_KEY = "visible";
 
+    @Nullable
     @BindView(R.id.step_details_container)FrameLayout stepDetailsContainer;
     @BindView(R.id.details_container)FrameLayout detailsContainer;
 
