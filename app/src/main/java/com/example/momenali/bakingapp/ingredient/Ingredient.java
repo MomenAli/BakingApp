@@ -1,4 +1,4 @@
-package com.example.momenali.bakingapp;
+package com.example.momenali.bakingapp.ingredient;
 
 /**
  * Created by Momen Ali on 12/15/2017.

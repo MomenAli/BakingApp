@@ -1,4 +1,4 @@
-package com.example.momenali.bakingapp;
+package com.example.momenali.bakingapp.ingredient;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.example.momenali.bakingapp.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

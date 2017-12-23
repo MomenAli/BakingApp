@@ -1,10 +1,6 @@
-package com.example.momenali.bakingapp;
+package com.example.momenali.bakingapp.step;
 
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
-import android.net.Uri;
-import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,9 +9,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.momenali.bakingapp.ui.DetailActivity;
-import com.example.momenali.bakingapp.ui.DetailsFragment;
-import com.example.momenali.bakingapp.ui.StepDetialsActivity;
+import com.example.momenali.bakingapp.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

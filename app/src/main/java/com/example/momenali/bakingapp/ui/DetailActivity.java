@@ -1,20 +1,17 @@
 package com.example.momenali.bakingapp.ui;
 
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.example.momenali.bakingapp.R;
-import com.example.momenali.bakingapp.RecipeRecycleView;
-import com.example.momenali.bakingapp.Step;
+import com.example.momenali.bakingapp.step.Step;
 import com.example.momenali.bakingapp.StepDetailsFragment;
-import com.example.momenali.bakingapp.StepRecycleView;
+import com.example.momenali.bakingapp.step.StepRecycleView;
+import com.example.momenali.bakingapp.WidgetSyncUtils;
 import com.example.momenali.bakingapp.utils.RecipeJSONUtils;
 
 import org.json.JSONException;
@@ -29,6 +26,7 @@ public class DetailActivity extends AppCompatActivity implements DetailsFragment
     private static final String TAG = "DetailActivity";
     Boolean tablet;
     int recipeID;
+    String mJSONResult;
 
     private static final String STEP_DETAILS_VISIBLE_KEY = "visible";
 
@@ -43,9 +41,13 @@ public class DetailActivity extends AppCompatActivity implements DetailsFragment
         ButterKnife.bind(this);
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
-        recipeID = extras.getInt(RecipeRecycleView.INTENT_ID_EXTRA_KEY,0);
+        recipeID = extras.getInt(MainActivity.INTENT_ID_EXTRA_KEY,0);
 
-        setTitle(extras.getString(RecipeRecycleView.INTENT_NAME_EXTRA_KEY));
+        setTitle(extras.getString(MainActivity.INTENT_NAME_EXTRA_KEY));
+
+        mJSONResult = extras.getString(MainActivity.INTENT_JSON_EXTRA_KEY);
+
+        WidgetSyncUtils.startImmediateSync(this,recipeID,mJSONResult);
 
         LinearLayout linearLayout = (LinearLayout) findViewById(R.id.land_linear_layout);
         if (linearLayout != null) tablet = true;
@@ -53,18 +55,18 @@ public class DetailActivity extends AppCompatActivity implements DetailsFragment
 
         if (savedInstanceState != null)return;
 
-        DetailsFragment detailsFragment =  DetailsFragment.newInstance(recipeID);
-
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
-
-        fragmentManager.beginTransaction()
-                .add(R.id.details_container, detailsFragment)
-                .commit();
+        FragmentManager fragmentManager;
         if (tablet){
+            DetailsFragment detailsFragment =  DetailsFragment.newInstance(recipeID, mJSONResult,0);
 
+
+            fragmentManager = getSupportFragmentManager();
+
+            fragmentManager.beginTransaction()
+                    .add(R.id.details_container, detailsFragment)
+                    .commit();
             try {
-                 mStep = RecipeJSONUtils.getStep(getBaseContext(),recipeID,0);
+                 mStep = RecipeJSONUtils.getStep(getBaseContext(),recipeID,0,mJSONResult);
             }  catch (IOException e) {
                 e.printStackTrace();
             } catch (JSONException e) {
@@ -79,6 +81,15 @@ public class DetailActivity extends AppCompatActivity implements DetailsFragment
                     .commit();
 
 
+        }else{
+            DetailsFragment detailsFragment =  DetailsFragment.newInstance(recipeID, mJSONResult,-1);
+
+
+            fragmentManager = getSupportFragmentManager();
+
+            fragmentManager.beginTransaction()
+                    .add(R.id.details_container, detailsFragment)
+                    .commit();
         }
 
     }
@@ -101,6 +112,7 @@ public class DetailActivity extends AppCompatActivity implements DetailsFragment
             Intent intent = new Intent(this, StepDetialsActivity.class);
             Bundle extras = new Bundle();
             extras.putParcelable(StepRecycleView.INTENT_STEP_EXTRA_KEY, step);
+            extras.putString(MainActivity.INTENT_JSON_EXTRA_KEY,mJSONResult);
             intent.putExtras(extras);
             startActivity(intent);
         }

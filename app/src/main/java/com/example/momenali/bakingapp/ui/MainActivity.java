@@ -1,6 +1,6 @@
 package com.example.momenali.bakingapp.ui;
 
-import android.content.IntentFilter;
+import android.content.Intent;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
@@ -9,12 +9,11 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
 import com.example.momenali.bakingapp.R;
-import com.example.momenali.bakingapp.Recipe;
-import com.example.momenali.bakingapp.RecipeRecycleView;
+import com.example.momenali.bakingapp.recipe.Recipe;
+import com.example.momenali.bakingapp.recipe.RecipeRecycleView;
 import com.example.momenali.bakingapp.utils.NetworkUtils;
 import com.example.momenali.bakingapp.utils.RecipeJSONUtils;
 
@@ -25,11 +24,16 @@ import java.io.IOException;
 /**
  * Created by Momen Ali on 12/15/2017.
  */
-public class MainActivity extends AppCompatActivity  implements LoaderManager.LoaderCallbacks<String> {
+public class MainActivity extends AppCompatActivity  implements LoaderManager.LoaderCallbacks<String> , RecipeRecycleView.onRecipeClickListener {
     private static final String TAG = "MainActivity";
 
-    private static final int _LOADER_ID = 930;
 
+    public static final String INTENT_ID_EXTRA_KEY  ="id";
+    public static final String INTENT_NAME_EXTRA_KEY  ="name";
+    public static final String INTENT_JSON_EXTRA_KEY  ="json";
+
+    private static final int _LOADER_ID = 930;
+    String mJSONResult;
     RecipeRecycleView mAdapter;
     RecyclerView recyclerView;
     Recipe[] recipes = new Recipe[]{new Recipe()};
@@ -83,6 +87,7 @@ public class MainActivity extends AppCompatActivity  implements LoaderManager.Lo
             Toast.makeText(this,this.getResources().getString(R.string.networkError),Toast.LENGTH_LONG).show();
             return;
         }
+        mJSONResult = data;
         try {
             recipes = RecipeJSONUtils.getRecipe(this , data);
         } catch (JSONException e) {
@@ -90,13 +95,25 @@ public class MainActivity extends AppCompatActivity  implements LoaderManager.Lo
         } catch (IOException e) {
             e.printStackTrace();
         }
+        Log.d(TAG, "onLoadFinished: " + recipes[0].toString());
         mAdapter = new RecipeRecycleView( this  ,recipes);
-
+        mAdapter.setmClickListener(this);
         recyclerView.setAdapter(mAdapter);
     }
 
     @Override
     public void onLoaderReset(Loader<String> loader) {
         loader = null;
+    }
+
+    @Override
+    public void onRecipeClickListener(Recipe recipe) {
+        Intent intent = new Intent(this,DetailActivity.class);
+        Bundle extras = new Bundle();
+        extras.putString(INTENT_NAME_EXTRA_KEY,recipe.getName());
+        extras.putInt(INTENT_ID_EXTRA_KEY,recipe.getId());
+        extras.putString(INTENT_JSON_EXTRA_KEY,mJSONResult);
+        intent.putExtras(extras);
+        startActivity(intent);
     }
 }

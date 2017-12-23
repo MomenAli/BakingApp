@@ -1,15 +1,11 @@
 package com.example.momenali.bakingapp.utils;
 
 import android.content.Context;
-import android.content.res.AssetManager;
-import android.net.Uri;
-import android.util.JsonReader;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.example.momenali.bakingapp.Ingredient;
-import com.example.momenali.bakingapp.Recipe;
-import com.example.momenali.bakingapp.Step;
+import com.example.momenali.bakingapp.ingredient.Ingredient;
+import com.example.momenali.bakingapp.recipe.Recipe;
+import com.example.momenali.bakingapp.step.Step;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -17,10 +13,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-
-import javax.sql.DataSource;
 
 /**
  * Created by Momen Ali on 12/14/2017.
@@ -55,7 +47,7 @@ public class RecipeJSONUtils {
         return recipes;
     }
 
-    public static Ingredient[] getIngredients(Context context, int id) throws JSONException, IOException {
+    public static Ingredient[] getIngredients(Context context, int id, String JsonStr) throws JSONException, IOException {
         //definre the parameter of the page
 
 
@@ -65,7 +57,6 @@ public class RecipeJSONUtils {
         final String OWM_MEASURE = "measure";
         final String OWM_INGRED_NAME = "ingredient";
 
-        String JsonStr = loadJSONFromAsset(context);
         Log.d(TAG, "getIngredient: " + JsonStr);
         JSONArray recipeJsonArray = new JSONArray(JsonStr);
         Log.d(TAG, "getIngredient: " + recipeJsonArray.length());
@@ -92,7 +83,7 @@ public class RecipeJSONUtils {
         return ingredients;
     }
 
-    public static Step[] getSteps(Context context, int id) throws JSONException, IOException {
+    public static Step[] getSteps(Context context, int id, String JsonStr) throws JSONException, IOException {
         //definre the parameter of the page
 
 
@@ -103,7 +94,6 @@ public class RecipeJSONUtils {
         final String OWM_VIDEO_URL = "videoURL";
         final String OWM_THUMBNAIL_URL = "thumbnailURL";
 
-        String JsonStr = loadJSONFromAsset(context);
         Log.d(TAG, "getIngredient: " + JsonStr);
         JSONArray recipeJsonArray = new JSONArray(JsonStr);
         Log.d(TAG, "getIngredient: " + recipeJsonArray.length());
@@ -133,7 +123,7 @@ public class RecipeJSONUtils {
         return steps;
     }
 
-    public static Step getStep(Context context, int recipeID, int stepID) throws JSONException, IOException {
+    public static Step getStep(Context context, int recipeID, int stepID, String JsonStr) throws JSONException, IOException {
         //definre the parameter of the page
 
 
@@ -144,7 +134,6 @@ public class RecipeJSONUtils {
         final String OWM_VIDEO_URL = "videoURL";
         final String OWM_THUMBNAIL_URL = "thumbnailURL";
 
-        String JsonStr = loadJSONFromAsset(context);
         Log.d(TAG, "getIngredient: " + JsonStr);
         JSONArray recipeJsonArray = new JSONArray(JsonStr);
         Log.d(TAG, "getIngredient: " + recipeJsonArray.length());

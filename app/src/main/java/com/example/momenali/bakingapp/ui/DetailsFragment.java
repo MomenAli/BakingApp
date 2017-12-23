@@ -1,8 +1,6 @@
 package com.example.momenali.bakingapp.ui;
 
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,11 +11,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ScrollView;
 
-import com.example.momenali.bakingapp.Ingredient;
-import com.example.momenali.bakingapp.IngredientsRecycleView;
+import com.example.momenali.bakingapp.ingredient.Ingredient;
+import com.example.momenali.bakingapp.ingredient.IngredientsRecycleView;
 import com.example.momenali.bakingapp.R;
-import com.example.momenali.bakingapp.Step;
-import com.example.momenali.bakingapp.StepRecycleView;
+import com.example.momenali.bakingapp.step.Step;
+import com.example.momenali.bakingapp.step.StepRecycleView;
 import com.example.momenali.bakingapp.utils.RecipeJSONUtils;
 
 import org.json.JSONException;
@@ -41,10 +39,13 @@ public class DetailsFragment extends Fragment implements StepRecycleView.StepCli
 
     @BindView(R.id.svDetailsFragment)
     ScrollView svMain;
+    int stepPostion;
 
     IngredientsRecycleView mIngredAdapter;
     StepRecycleView mStepAdapter;
     OnDetailsFragmentListener mListener;
+
+    String mJSONResult;
 
 
     private static final String SCROLL_POSTION_KEY = "scrollPostion";
@@ -59,7 +60,8 @@ public class DetailsFragment extends Fragment implements StepRecycleView.StepCli
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
-//    private static final String ARG_PARAM2 = "param2";
+    private static final String ARG_PARAM2 = "param2";
+    private static final String ARG_PARAM3 = "param3";
 
 
 
@@ -74,14 +76,18 @@ public class DetailsFragment extends Fragment implements StepRecycleView.StepCli
      * this fragment using the provided parameters.
      *
      * @param id Parameter 1.
+     * @param json Parameter 1.
       * @return A new instance of fragment DetailsFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static DetailsFragment newInstance(int id) {
+    public static DetailsFragment newInstance(int id , String json , int current) {
+
         DetailsFragment fragment = new DetailsFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_PARAM1, id);
-        //args.putString(ARG_PARAM2, param2);
+        args.putString(ARG_PARAM2, json);
+
+        args.putInt(ARG_PARAM3, current);
         fragment.setArguments(args);
         return fragment;
     }
@@ -92,7 +98,8 @@ public class DetailsFragment extends Fragment implements StepRecycleView.StepCli
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             recipeID = getArguments().getInt(ARG_PARAM1);
-          //  mParam2 = getArguments().getString(ARG_PARAM2);
+            mJSONResult = getArguments().getString(ARG_PARAM2);
+            stepPostion = getArguments().getInt(ARG_PARAM3);
         }
 
     }
@@ -105,8 +112,8 @@ public class DetailsFragment extends Fragment implements StepRecycleView.StepCli
         Log.d(TAG, "onCreateView: "+recipeID);
         /* get the Ingredients */
         try {
-            ingredients = RecipeJSONUtils.getIngredients(viewRoot.getContext(), recipeID);
-            steps = RecipeJSONUtils.getSteps(viewRoot.getContext(),recipeID);
+            ingredients = RecipeJSONUtils.getIngredients(viewRoot.getContext(), recipeID,mJSONResult);
+            steps = RecipeJSONUtils.getSteps(viewRoot.getContext(),recipeID,mJSONResult);
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -126,6 +133,7 @@ public class DetailsFragment extends Fragment implements StepRecycleView.StepCli
         mStepAdapter = new StepRecycleView( viewRoot.getContext()  , steps);
         mStepAdapter.setmClickListener(this);
         stepRecyclerView.setAdapter(mStepAdapter);
+        mStepAdapter.setSelectedPostion(stepPostion);
 
         if (savedInstanceState != null){
             mStepAdapter.setSelectedPostion(savedInstanceState.getInt(STEP_POSTION_KEY));

@@ -1,4 +1,4 @@
-package com.example.momenali.bakingapp;
+package com.example.momenali.bakingapp.recipe;
 
 /**
  * Created by Momen Ali on 12/13/2017.
@@ -24,6 +24,16 @@ public class Recipe {
 
     public String getServings() {
         return servings;
+    }
+
+    @Override
+    public String toString() {
+        return "Recipe{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", servings='" + servings + '\'' +
+                ", ImageURL='" + ImageURL + '\'' +
+                '}';
     }
 
     public void setServings(String servings) {

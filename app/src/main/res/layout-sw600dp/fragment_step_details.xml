@@ -1,12 +1,11 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/colorPrimaryLight"
-    tools:context="com.example.momenali.bakingapp.StepDetailsFragment">
+    android:background="@color/colorPrimaryLight">
 
 
     <com.google.android.exoplayer2.ui.SimpleExoPlayerView
@@ -14,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="visible"
-        android:layout_weight="35">
+        android:layout_weight="30">
 
     </com.google.android.exoplayer2.ui.SimpleExoPlayerView>
 
@@ -42,7 +41,8 @@
             android:gravity="center_horizontal"
             android:id="@+id/next_step_button"
             android:layout_alignParentRight="true"
-            android:onClick="getNextStep"/>
+            android:onClick="getNextStep"
+            android:layout_alignParentEnd="true" />
 
         <Button
             android:id="@+id/button"

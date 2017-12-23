@@ -16,7 +16,7 @@ import java.util.Scanner;
 
 public class NetworkUtils {
 
-    final static String BASE_URL = "http://go.udacity.com/android-baking-app-json";
+    final static String BASE_URL = "https://go.udacity.com/android-baking-app-json";
 
 
     /**

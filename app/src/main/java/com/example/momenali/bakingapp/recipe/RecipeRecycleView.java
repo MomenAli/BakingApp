@@ -1,8 +1,6 @@
-package com.example.momenali.bakingapp;
+package com.example.momenali.bakingapp.recipe;
 
 import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.momenali.bakingapp.ui.DetailActivity;
+import com.example.momenali.bakingapp.R;
 import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
@@ -24,8 +22,8 @@ import butterknife.ButterKnife;
 public class RecipeRecycleView extends RecyclerView.Adapter<RecipeRecycleView.ViewHolder> {
     private static final String TAG = "RecipeRecycleView";
 
-    public static final String INTENT_ID_EXTRA_KEY  ="id";
-    public static final String INTENT_NAME_EXTRA_KEY  ="name";
+
+    onRecipeClickListener mClickListener;
 
 
 
@@ -78,17 +76,18 @@ public class RecipeRecycleView extends RecyclerView.Adapter<RecipeRecycleView.Vi
 
         @Override
         public void onClick(View v) {
-            Log.d(TAG, "onClick: iye" );
-            Intent intent = new Intent(mContext,DetailActivity.class);
-            Bundle extras = new Bundle();
-            extras.putString(INTENT_NAME_EXTRA_KEY,mRecipe[getAdapterPosition()].getName());
-            extras.putInt(INTENT_ID_EXTRA_KEY,mRecipe[getAdapterPosition()].getId());
-            intent.putExtras(extras);
-            mContext.startActivity(intent);
+            Log.d(TAG, "onClick: iye" + mRecipe[getAdapterPosition()].toString() );
 
-
-
+            mClickListener.onRecipeClickListener(mRecipe[getAdapterPosition()]);
         }
+    }
+
+    public void setmClickListener(onRecipeClickListener itemClickListener) {
+        this.mClickListener = itemClickListener;
+    }
+
+    public interface onRecipeClickListener {
+        void onRecipeClickListener(Recipe recipe);
     }
 
 

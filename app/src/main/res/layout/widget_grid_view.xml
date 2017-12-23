@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
     <GridView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/widget_linear_view"></GridView>
+        android:id="@+id/widget_grid_view"
+        android:numColumns="1"></GridView>
     <RelativeLayout
         android:id="@+id/empty_view"
         android:layout_width="match_parent"
@@ -15,7 +17,7 @@
             android:alpha="0.2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/placeholder_food"/>
+            android:src="@drawable/placeholder_widget"/>
     </RelativeLayout>
 
 </FrameLayout>

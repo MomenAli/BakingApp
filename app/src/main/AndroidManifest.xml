@@ -27,6 +27,10 @@
             android:name=".ui.StepDetialsActivity"
             android:launchMode="singleTop" />
 
+        <service android:name="GridWidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
+
+        <service android:name=".IngredientWidgetService"/>
         <receiver android:name=".IngredientsWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
