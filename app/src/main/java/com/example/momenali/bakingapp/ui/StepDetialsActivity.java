@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -25,6 +26,7 @@ public class StepDetialsActivity extends AppCompatActivity {
 
     Step mStep;
     String mJSONResult;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,9 +45,8 @@ public class StepDetialsActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
 
         fragmentManager.beginTransaction()
-                .replace(R.id.step_details_container,fragment)
+                .replace(R.id.step_details_container, fragment)
                 .commit();
-
 
 
     }
@@ -53,12 +54,12 @@ public class StepDetialsActivity extends AppCompatActivity {
 
     public void getPreviousStep(View view) {
 
-        if (mStep.getId().equals("0")){
-            Toast.makeText(getBaseContext(),getBaseContext().getResources().getString(R.string.first_step_notification),Toast.LENGTH_LONG).show();
+        if (mStep.getId().equals("0")) {
+            Toast.makeText(getBaseContext(), getBaseContext().getResources().getString(R.string.first_step_notification), Toast.LENGTH_LONG).show();
         }
 
         try {
-            mStep = RecipeJSONUtils.getStep(getBaseContext(),mStep.getRecipeID(),Integer.parseInt(mStep.getId())-1,mJSONResult);
+            mStep = RecipeJSONUtils.getStep(getBaseContext(), mStep.getRecipeID(), Integer.parseInt(mStep.getId()) - 1, mJSONResult);
         } catch (JSONException e) {
             e.printStackTrace();
             return;
@@ -72,22 +73,22 @@ public class StepDetialsActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
 
         fragmentManager.beginTransaction()
-                .replace(R.id.step_details_container,fragment)
+                .replace(R.id.step_details_container, fragment)
                 .commit();
     }
 
     public void getNextStep(View view) {
         Step oldStep = mStep;
         try {
-            mStep = RecipeJSONUtils.getStep(getBaseContext(),mStep.getRecipeID(),Integer.parseInt(mStep.getId())+1,mJSONResult);
+            mStep = RecipeJSONUtils.getStep(getBaseContext(), mStep.getRecipeID(), Integer.parseInt(mStep.getId()) + 1, mJSONResult);
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        if (mStep == null){
-            Toast.makeText(getBaseContext(),getBaseContext().getResources().getString(R.string.last_step_notification),Toast.LENGTH_LONG).show();
+        if (mStep == null) {
+            Toast.makeText(getBaseContext(), getBaseContext().getResources().getString(R.string.last_step_notification), Toast.LENGTH_LONG).show();
             mStep = oldStep;
             return;
         }
@@ -96,7 +97,7 @@ public class StepDetialsActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
 
         fragmentManager.beginTransaction()
-                .replace(R.id.step_details_container,fragment)
+                .replace(R.id.step_details_container, fragment)
                 .commit();
     }
 
@@ -107,17 +108,23 @@ public class StepDetialsActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        Log.d(TAG, "onKeyDown: " + (keyCode == KeyEvent.KEYCODE_BACK));
-        return super.onKeyDown(keyCode, event);
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home){
+            Intent data = new Intent();
+            data.putExtra(STEP_NUMBER_TO_PERANTE, mStep.getId());
+            setResult(RESULT_OK, data);
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
-
 
     @Override
     public void onBackPressed() {
         Log.d(TAG, "onBackPressed: ");
-
-        super.onBackPressed();
+        Intent data = new Intent();
+        data.putExtra(STEP_NUMBER_TO_PERANTE, mStep.getId());
+        setResult(RESULT_OK, data);
+        finish();
     }
 
     @Override

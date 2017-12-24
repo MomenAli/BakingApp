@@ -21,11 +21,12 @@ import java.io.IOException;
 
 public class GridWidgetService extends RemoteViewsService {
     private static final String TAG = "IngredientsWidget";
+
     @Override
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
         try {
-            Log.d(TAG, "onGetViewFactory: " );
-            return new GridRemoteViewsFactory(this.getApplicationContext(),intent);
+            Log.d(TAG, "onGetViewFactory: ");
+            return new GridRemoteViewsFactory(this.getApplicationContext(), intent);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (JSONException e) {
@@ -49,9 +50,9 @@ class GridRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         Bundle extras = intent.getExtras();
         mJSONResult = extras.getString(MainActivity.INTENT_JSON_EXTRA_KEY);
         recipeID = extras.getInt(MainActivity.INTENT_ID_EXTRA_KEY);
-        Log.d(TAG, "GridRemoteViewsFactory: " +recipeID);
+        Log.d(TAG, "GridRemoteViewsFactory: " + recipeID);
         if (mJSONResult != null)
-        ingredients = RecipeJSONUtils.getIngredients(mContext,recipeID,mJSONResult);
+            ingredients = RecipeJSONUtils.getIngredients(mContext, recipeID, mJSONResult);
     }
 
     @Override
@@ -66,7 +67,7 @@ class GridRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         try {
             Log.d(TAG, "onDataSetChanged: " + recipeID);
             if (mJSONResult != null)
-            ingredients = RecipeJSONUtils.getIngredients(mContext,recipeID,mJSONResult);
+                ingredients = RecipeJSONUtils.getIngredients(mContext, recipeID, mJSONResult);
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -83,16 +84,16 @@ class GridRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
     @Override
     public int getCount() {
-        if (ingredients == null) return  0;
+        if (ingredients == null) return 0;
         return ingredients.length;
     }
 
     @Override
     public RemoteViews getViewAt(int position) {
         RemoteViews views = new RemoteViews(mContext.getPackageName(), R.layout.ingred_item);
-        views.setTextViewText(R.id.tvIngredName,ingredients[position].getIngredientName());
-        views.setTextViewText(R.id.tvIngredQuantity,String.valueOf(ingredients[position].getQuantity()));
-        views.setTextViewText(R.id.tvIngredUnit,ingredients[position].getMeasure().toString());
+        views.setTextViewText(R.id.tvIngredName, ingredients[position].getIngredientName());
+        views.setTextViewText(R.id.tvIngredQuantity, String.valueOf(ingredients[position].getQuantity()));
+        views.setTextViewText(R.id.tvIngredUnit, ingredients[position].getMeasure().toString());
         Log.d(TAG, "getViewAt: " + ingredients[position].getIngredientName());
        /* holder.ingredientName.setText(mIngredient[position].getIngredientName());
         holder.IngredQuantity.setText(String.valueOf(mIngredient[position].getQuantity()));

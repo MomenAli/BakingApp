@@ -19,6 +19,7 @@ public class IngredientsWidget extends AppWidgetProvider {
     public static final String TAG = "IngredientsWidget";
     static int recipeID;
     static String mJSONResult;
+
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
 
@@ -30,8 +31,8 @@ public class IngredientsWidget extends AppWidgetProvider {
         Bundle extras = new Bundle();
         /*mJSONResult = extras.getString(MainActivity.INTENT_JSON_EXTRA_KEY);
         recipeID = extras.getInt(MainActivity.INTENT_ID_EXTRA_KEY);*/
-        extras.putString(MainActivity.INTENT_JSON_EXTRA_KEY,mJSONResult);
-        extras.putInt(MainActivity.INTENT_ID_EXTRA_KEY,recipeID);
+        extras.putString(MainActivity.INTENT_JSON_EXTRA_KEY, mJSONResult);
+        extras.putInt(MainActivity.INTENT_ID_EXTRA_KEY, recipeID);
         intent.putExtras(extras);
         views.setRemoteAdapter(R.id.widget_grid_view, intent);
         Log.d(TAG, "updateAppWidget: ");
@@ -55,13 +56,13 @@ public class IngredientsWidget extends AppWidgetProvider {
     }
 
 
-    public static void updateIngredientWidgets(Context context, AppWidgetManager appWidgetManager, String json , int recipeId,
-                                           int[] appWidgetIds) {
+    public static void updateIngredientWidgets(Context context, AppWidgetManager appWidgetManager, String json, int recipeId,
+                                               int[] appWidgetIds) {
         mJSONResult = json;
         recipeID = recipeId;
-        Log.d(TAG, "updateIngredientWidgets: " );
+        Log.d(TAG, "updateIngredientWidgets: ");
         for (int appWidgetId : appWidgetIds) {
-            updateAppWidget(context, appWidgetManager,appWidgetId);
+            updateAppWidget(context, appWidgetManager, appWidgetId);
         }
     }
 

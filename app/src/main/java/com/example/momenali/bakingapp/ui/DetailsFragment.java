@@ -34,8 +34,8 @@ import butterknife.ButterKnife;
  * Use the {@link DetailsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class DetailsFragment extends Fragment implements StepRecycleView.StepClickListener{
-    private static final String TAG  = "DetailsFragment";
+public class DetailsFragment extends Fragment implements StepRecycleView.StepClickListener {
+    private static final String TAG = "DetailsFragment";
 
     @BindView(R.id.svDetailsFragment)
     ScrollView svMain;
@@ -64,8 +64,7 @@ public class DetailsFragment extends Fragment implements StepRecycleView.StepCli
     private static final String ARG_PARAM3 = "param3";
 
 
-
- //   private OnFragmentInteractionListener mListener;
+    //   private OnFragmentInteractionListener mListener;
 
     public DetailsFragment() {
         // Required empty public constructor
@@ -75,12 +74,12 @@ public class DetailsFragment extends Fragment implements StepRecycleView.StepCli
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param id Parameter 1.
+     * @param id   Parameter 1.
      * @param json Parameter 1.
-      * @return A new instance of fragment DetailsFragment.
+     * @return A new instance of fragment DetailsFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static DetailsFragment newInstance(int id , String json , int current) {
+    public static DetailsFragment newInstance(int id, String json, int current) {
 
         DetailsFragment fragment = new DetailsFragment();
         Bundle args = new Bundle();
@@ -108,36 +107,36 @@ public class DetailsFragment extends Fragment implements StepRecycleView.StepCli
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View viewRoot = inflater.inflate(R.layout.fragment_details,container,false);
-        Log.d(TAG, "onCreateView: "+recipeID);
+        View viewRoot = inflater.inflate(R.layout.fragment_details, container, false);
+        Log.d(TAG, "onCreateView: " + recipeID);
         /* get the Ingredients */
         try {
-            ingredients = RecipeJSONUtils.getIngredients(viewRoot.getContext(), recipeID,mJSONResult);
-            steps = RecipeJSONUtils.getSteps(viewRoot.getContext(),recipeID,mJSONResult);
+            ingredients = RecipeJSONUtils.getIngredients(viewRoot.getContext(), recipeID, mJSONResult);
+            steps = RecipeJSONUtils.getSteps(viewRoot.getContext(), recipeID, mJSONResult);
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        ButterKnife.bind(this,viewRoot);
+        ButterKnife.bind(this, viewRoot);
         // set up the ingredients RecyclerView
         RecyclerView ingredientRecyclerView = (RecyclerView) viewRoot.findViewById(R.id.rvIngredients);
         ingredientRecyclerView.setLayoutManager(new LinearLayoutManager(ingredientRecyclerView.getContext()));
-        mIngredAdapter = new IngredientsRecycleView( viewRoot.getContext()  ,ingredients);
+        mIngredAdapter = new IngredientsRecycleView(viewRoot.getContext(), ingredients);
         ingredientRecyclerView.setAdapter(mIngredAdapter);
 
 
         // set up the steps RecyclerView
         RecyclerView stepRecyclerView = (RecyclerView) viewRoot.findViewById(R.id.rvSteps);
         stepRecyclerView.setLayoutManager(new LinearLayoutManager(stepRecyclerView.getContext()));
-        mStepAdapter = new StepRecycleView( viewRoot.getContext()  , steps);
+        mStepAdapter = new StepRecycleView(viewRoot.getContext(), steps);
         mStepAdapter.setmClickListener(this);
         stepRecyclerView.setAdapter(mStepAdapter);
         mStepAdapter.setSelectedPostion(stepPostion);
 
-        if (savedInstanceState != null){
+        if (savedInstanceState != null) {
             mStepAdapter.setSelectedPostion(savedInstanceState.getInt(STEP_POSTION_KEY));
-            svMain.scrollTo(0,savedInstanceState.getInt(SCROLL_POSTION_KEY));
+            svMain.scrollTo(0, savedInstanceState.getInt(SCROLL_POSTION_KEY));
         }
 
         return viewRoot;
@@ -146,8 +145,8 @@ public class DetailsFragment extends Fragment implements StepRecycleView.StepCli
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putInt(SCROLL_POSTION_KEY,svMain.getScrollY());
-        outState.putInt(STEP_POSTION_KEY,mStepAdapter.getSelectedPostion());
+        outState.putInt(SCROLL_POSTION_KEY, svMain.getScrollY());
+        outState.putInt(STEP_POSTION_KEY, mStepAdapter.getSelectedPostion());
         super.onSaveInstanceState(outState);
     }
 

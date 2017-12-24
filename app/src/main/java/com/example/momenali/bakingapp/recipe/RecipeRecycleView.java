@@ -26,7 +26,6 @@ public class RecipeRecycleView extends RecyclerView.Adapter<RecipeRecycleView.Vi
     onRecipeClickListener mClickListener;
 
 
-
     private Recipe[] mRecipe = new Recipe[0];
     private LayoutInflater mInflater;
     Context mContext;
@@ -40,7 +39,7 @@ public class RecipeRecycleView extends RecyclerView.Adapter<RecipeRecycleView.Vi
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Log.d(TAG, "onCreateViewHolder: ");
-        View view = mInflater.inflate(R.layout.recipe_item,parent,false);
+        View view = mInflater.inflate(R.layout.recipe_item, parent, false);
         return new ViewHolder(view);
     }
 
@@ -63,20 +62,23 @@ public class RecipeRecycleView extends RecyclerView.Adapter<RecipeRecycleView.Vi
         return mRecipe.length;
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        @BindView(R.id.imageView) ImageView ivRecipeImage;
-        @BindView(R.id.recipeTitle) TextView tvRecipeTitle;
-        @BindView(R.id.tvServingNumber) TextView tvServings;
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        @BindView(R.id.imageView)
+        ImageView ivRecipeImage;
+        @BindView(R.id.recipeTitle)
+        TextView tvRecipeTitle;
+        @BindView(R.id.tvServingNumber)
+        TextView tvServings;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this,itemView);
+            ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
-            Log.d(TAG, "onClick: iye" + mRecipe[getAdapterPosition()].toString() );
+            Log.d(TAG, "onClick: iye" + mRecipe[getAdapterPosition()].toString());
 
             mClickListener.onRecipeClickListener(mRecipe[getAdapterPosition()]);
         }

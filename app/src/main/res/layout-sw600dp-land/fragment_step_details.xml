@@ -1,5 +1,4 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -24,8 +23,8 @@
         android:text="@string/hello_blank_fragment"
         android:layout_margin="@dimen/margin_medium"
         style="@style/pragraph_style"
-        android:layout_weight="50"
-        />
+        android:layout_weight="50" />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/buttons_layout_hight"
@@ -41,7 +40,7 @@
             android:gravity="center_horizontal"
             android:id="@+id/next_step_button"
             android:layout_alignParentRight="true"
-            android:onClick="getNextStep"/>
+            android:onClick="getNextStep" />
 
         <Button
             android:id="@+id/button"
@@ -50,7 +49,7 @@
             android:layout_gravity="center_vertical"
             android:text="@string/previous_button"
             android:layout_alignParentLeft="true"
-            android:onClick="getPreviousStep"/>
+            android:onClick="getPreviousStep" />
     </RelativeLayout>
 
 </LinearLayout>

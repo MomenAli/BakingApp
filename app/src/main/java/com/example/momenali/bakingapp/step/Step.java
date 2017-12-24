@@ -8,15 +8,15 @@ import android.os.Parcelable;
  */
 
 public class Step implements Parcelable {
-/*
-*  the information of the step is
-*
-*       "id",
-        "shortDescription",
-        "description",
-        "videoURL",
-        "thumbnailURL"
-        */
+    /*
+    *  the information of the step is
+    *
+    *       "id",
+            "shortDescription",
+            "description",
+            "videoURL",
+            "thumbnailURL"
+            */
     String id;
     int recipeID;
     String shortDescription;

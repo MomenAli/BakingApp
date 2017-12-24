@@ -46,7 +46,6 @@ public class StepDetailsFragment extends Fragment {
     private static final String VIDEO_POSTION_KEY = "videoPostion";
 
 
-
     boolean tabletLandSingle;
     boolean landScape = false;
 
@@ -59,7 +58,6 @@ public class StepDetailsFragment extends Fragment {
     @Nullable
     @BindView(R.id.tvStepDescription)
     TextView tvStepDescription;
-
 
 
     private Step mStep;
@@ -98,15 +96,15 @@ public class StepDetailsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_step_details, container, false);
-        ButterKnife.bind(this , rootView);
+        ButterKnife.bind(this, rootView);
         setUpVideo();
         if (tvStepDescription != null)
-        tvStepDescription.setText(mStep.getDescription());
+            tvStepDescription.setText(mStep.getDescription());
 
-        if (savedInstanceState != null){
+        if (savedInstanceState != null) {
             currentVideoPostion = savedInstanceState.getLong(VIDEO_POSTION_KEY);
             if (mExoPlayer != null)
-            mExoPlayer.seekTo(currentVideoPostion);
+                mExoPlayer.seekTo(currentVideoPostion);
         }
         Log.d(TAG, "onCreateView: " + currentVideoPostion);
         /*if(landScape = Configuration.ORIENTATION_LANDSCAPE == this.getResources().getConfiguration().orientation) {
@@ -122,21 +120,22 @@ public class StepDetailsFragment extends Fragment {
         return rootView;
     }
 
-    public void setUpVideo(){
-        String videoURL ;
+    public void setUpVideo() {
+        String videoURL;
 
-        if (mStep.getVideoURL().equals("")&& mStep.getThumbnailURL().equals("")){
+        if (mStep.getVideoURL().equals("") && mStep.getThumbnailURL().equals("")) {
             mPlayerView.setVisibility(View.GONE);
             tvStepDescription.setVisibility(View.VISIBLE);
-        }else{
-            if (mStep.getVideoURL().equals("")){
+        } else {
+            if (mStep.getVideoURL().equals("")) {
                 videoURL = mStep.getThumbnailURL();
-            }else{
+            } else {
                 videoURL = mStep.getVideoURL();
             }
             initializePlayer(Uri.parse(videoURL));
         }
     }
+
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
@@ -162,8 +161,8 @@ public class StepDetailsFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-    private void initializePlayer (Uri mediaUri){
-        if (mExoPlayer == null){
+    private void initializePlayer(Uri mediaUri) {
+        if (mExoPlayer == null) {
             // Create an instance of the ExoPlayer.
             TrackSelector trackSelector = new DefaultTrackSelector();
             LoadControl loadControl = new DefaultLoadControl();
@@ -205,10 +204,10 @@ public class StepDetailsFragment extends Fragment {
         super.onResume();
         setUpVideo();
         if (mExoPlayer != null)
-        mExoPlayer.seekTo(currentVideoPostion);
+            mExoPlayer.seekTo(currentVideoPostion);
     }
 
-    private void releasePlayer(){
+    private void releasePlayer() {
         if (mExoPlayer != null) {
             mExoPlayer.stop();
             mExoPlayer.release();

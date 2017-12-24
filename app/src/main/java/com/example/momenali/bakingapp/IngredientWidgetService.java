@@ -17,9 +17,9 @@ import com.example.momenali.bakingapp.ui.MainActivity;
 public class IngredientWidgetService extends IntentService {
     /**
      * Creates an IntentService.  Invoked by your subclass's constructor.
-     *
      */
     private static final String TAG = "IngredientWidgetService";
+
     public IngredientWidgetService() {
         super("IngredientWidgetService");
     }
@@ -41,8 +41,8 @@ public class IngredientWidgetService extends IntentService {
         appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_grid_view);
 
         IngredientsWidget.updateIngredientWidgets(this,
-                appWidgetManager,extas.getString(MainActivity.INTENT_JSON_EXTRA_KEY),
-                extas.getInt(MainActivity.INTENT_ID_EXTRA_KEY),appWidgetIds);
+                appWidgetManager, extas.getString(MainActivity.INTENT_JSON_EXTRA_KEY),
+                extas.getInt(MainActivity.INTENT_ID_EXTRA_KEY), appWidgetIds);
 
     }
 }

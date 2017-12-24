@@ -24,9 +24,9 @@ public class StepRecycleView extends RecyclerView.Adapter<StepRecycleView.ViewHo
 
     StepClickListener mClickListener;
 
-    public static final String INTENT_RECIPE_ID_EXTRA_KEY  ="recipeID";
-    public static final String INTENT_STEP_ID_EXTRA_KEY  ="stepID";
-    public static final String INTENT_STEP_EXTRA_KEY  ="step";
+    public static final String INTENT_RECIPE_ID_EXTRA_KEY = "recipeID";
+    public static final String INTENT_STEP_ID_EXTRA_KEY = "stepID";
+    public static final String INTENT_STEP_EXTRA_KEY = "step";
 
     private Step[] mStep = new Step[0];
     private LayoutInflater mInflater;
@@ -42,7 +42,7 @@ public class StepRecycleView extends RecyclerView.Adapter<StepRecycleView.ViewHo
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Log.d(TAG, "onCreateViewHolder: ");
-        View view = mInflater.inflate(R.layout.step_item,parent,false);
+        View view = mInflater.inflate(R.layout.step_item, parent, false);
         return new ViewHolder(view);
     }
 
@@ -56,17 +56,17 @@ public class StepRecycleView extends RecyclerView.Adapter<StepRecycleView.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Log.d(TAG, "onBindViewHolder: "+mStep.length+"  "+ position);
+        Log.d(TAG, "onBindViewHolder: " + mStep.length + "  " + position);
 
-        holder.tvStepNumber.setText(String.valueOf(position+1));
+        holder.tvStepNumber.setText(String.valueOf(position + 1));
         holder.tvShortDescription.setText(mStep[position].shortDescription);
-        Log.d(TAG, "onBindViewHolder: " +position + " selected " + selectedPostion);
-        if (position == selectedPostion){
+        Log.d(TAG, "onBindViewHolder: " + position + " selected " + selectedPostion);
+        if (position == selectedPostion) {
             holder.tvStepNumber.setSelected(true);
             holder.tvStepNumber.setTextColor(mContext.getResources().getColor(R.color.black));
             holder.step_background.setSelected(true);
             holder.tvShortDescription.setTextColor(mContext.getResources().getColor(R.color.white));
-        }else{
+        } else {
             holder.tvStepNumber.setSelected(false);
             holder.tvStepNumber.setTextColor(mContext.getResources().getColor(R.color.white));
             holder.step_background.setSelected(false);
@@ -80,33 +80,32 @@ public class StepRecycleView extends RecyclerView.Adapter<StepRecycleView.ViewHo
         return mStep.length;
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        @BindView(R.id.tvStepNumber) TextView tvStepNumber;
-        @BindView(R.id.tvStepShortDescription) TextView tvShortDescription;
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        @BindView(R.id.tvStepNumber)
+        TextView tvStepNumber;
+        @BindView(R.id.tvStepShortDescription)
+        TextView tvShortDescription;
         @BindView(R.id.step_background)
         LinearLayout step_background;
 
         public ViewHolder(View itemView) {
             super(itemView);
             Log.d(TAG, "ViewHolder: ");
-            ButterKnife.bind(this,itemView);
+            ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
-            Log.d(TAG, "onClick: iye "+ selectedPostion );
+            Log.d(TAG, "onClick: iye " + selectedPostion);
             int oldItem = selectedPostion;
             selectedPostion = getAdapterPosition();
-            Log.d(TAG, "after onClick: iye "+ selectedPostion );
-            mClickListener.onStepItemClick(v,getAdapterPosition());
+            Log.d(TAG, "after onClick: iye " + selectedPostion);
+            mClickListener.onStepItemClick(v, getAdapterPosition());
             notifyItemChanged(oldItem);
             notifyItemChanged(selectedPostion);
         }
     }
-
-
-
 
 
     /**

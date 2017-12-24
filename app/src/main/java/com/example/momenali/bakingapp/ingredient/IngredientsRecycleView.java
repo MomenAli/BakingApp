@@ -31,13 +31,13 @@ public class IngredientsRecycleView extends RecyclerView.Adapter<IngredientsRecy
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Log.d(TAG, "onCreateViewHolder: ");
-        View view = mInflater.inflate(R.layout.ingred_item,parent,false);
+        View view = mInflater.inflate(R.layout.ingred_item, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Log.d(TAG, "onBindViewHolder: "+mIngredient.length+"  "+ position);
+        Log.d(TAG, "onBindViewHolder: " + mIngredient.length + "  " + position);
 
         holder.ingredientName.setText(mIngredient[position].getIngredientName());
         holder.IngredQuantity.setText(String.valueOf(mIngredient[position].getQuantity()));
@@ -49,21 +49,24 @@ public class IngredientsRecycleView extends RecyclerView.Adapter<IngredientsRecy
         return mIngredient.length;
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        @BindView(R.id.tvIngredName) TextView ingredientName;
-        @BindView(R.id.tvIngredQuantity) TextView IngredQuantity;
-        @BindView(R.id.tvIngredUnit) TextView IngredUnit;
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        @BindView(R.id.tvIngredName)
+        TextView ingredientName;
+        @BindView(R.id.tvIngredQuantity)
+        TextView IngredQuantity;
+        @BindView(R.id.tvIngredUnit)
+        TextView IngredUnit;
 
         public ViewHolder(View itemView) {
             super(itemView);
             Log.d(TAG, "ViewHolder: ");
-            ButterKnife.bind(this,itemView);
+            ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
-            Log.d(TAG, "onClick: iye" );
+            Log.d(TAG, "onClick: iye");
         }
     }
 }

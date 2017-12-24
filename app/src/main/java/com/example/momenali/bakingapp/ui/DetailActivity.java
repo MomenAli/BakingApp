@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.momenali.bakingapp.R;
+import com.example.momenali.bakingapp.ingredient.Ingredient;
 import com.example.momenali.bakingapp.step.Step;
 import com.example.momenali.bakingapp.StepDetailsFragment;
 import com.example.momenali.bakingapp.step.StepRecycleView;
@@ -25,21 +26,25 @@ import java.io.IOException;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class DetailActivity extends AppCompatActivity implements DetailsFragment.OnDetailsFragmentListener{
+public class DetailActivity extends AppCompatActivity implements DetailsFragment.OnDetailsFragmentListener {
 
     public static final String TAG = "DetailActivity";
     Boolean tablet;
     int recipeID;
     String mJSONResult;
+    int currentStep = -1;
     private static final int REQEST_CODE = 990;
 
     private static final String STEP_DETAILS_VISIBLE_KEY = "visible";
 
     @Nullable
-    @BindView(R.id.step_details_container)FrameLayout stepDetailsContainer;
-    @BindView(R.id.details_container)FrameLayout detailsContainer;
+    @BindView(R.id.step_details_container)
+    FrameLayout stepDetailsContainer;
+    @BindView(R.id.details_container)
+    FrameLayout detailsContainer;
 
     Step mStep;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,23 +54,23 @@ public class DetailActivity extends AppCompatActivity implements DetailsFragment
         ButterKnife.bind(this);
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
-        recipeID = extras.getInt(MainActivity.INTENT_ID_EXTRA_KEY,0);
+        recipeID = extras.getInt(MainActivity.INTENT_ID_EXTRA_KEY, 0);
 
         setTitle(extras.getString(MainActivity.INTENT_NAME_EXTRA_KEY));
 
         mJSONResult = extras.getString(MainActivity.INTENT_JSON_EXTRA_KEY);
 
-        WidgetSyncUtils.startImmediateSync(this,recipeID,mJSONResult);
+        WidgetSyncUtils.startImmediateSync(this, recipeID, mJSONResult);
 
         LinearLayout linearLayout = (LinearLayout) findViewById(R.id.land_linear_layout);
         if (linearLayout != null) tablet = true;
         else tablet = false;
 
-        if (savedInstanceState != null)return;
+        if (savedInstanceState != null) return;
 
         FragmentManager fragmentManager;
-        if (tablet){
-            DetailsFragment detailsFragment =  DetailsFragment.newInstance(recipeID, mJSONResult,0);
+        if (tablet) {
+            DetailsFragment detailsFragment = DetailsFragment.newInstance(recipeID, mJSONResult, 0);
 
 
             fragmentManager = getSupportFragmentManager();
@@ -74,13 +79,13 @@ public class DetailActivity extends AppCompatActivity implements DetailsFragment
                     .add(R.id.details_container, detailsFragment)
                     .commit();
             try {
-                 mStep = RecipeJSONUtils.getStep(getBaseContext(),recipeID,0,mJSONResult);
-            }  catch (IOException e) {
+                mStep = RecipeJSONUtils.getStep(getBaseContext(), recipeID, 0, mJSONResult);
+            } catch (IOException e) {
                 e.printStackTrace();
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            StepDetailsFragment stepDetailsFragment =  StepDetailsFragment.newInstance(mStep);
+            StepDetailsFragment stepDetailsFragment = StepDetailsFragment.newInstance(mStep);
 
             fragmentManager = getSupportFragmentManager();
 
@@ -89,8 +94,8 @@ public class DetailActivity extends AppCompatActivity implements DetailsFragment
                     .commit();
 
 
-        }else{
-            DetailsFragment detailsFragment =  DetailsFragment.newInstance(recipeID, mJSONResult,-1);
+        } else {
+            DetailsFragment detailsFragment = DetailsFragment.newInstance(recipeID, mJSONResult, -1);
 
 
             fragmentManager = getSupportFragmentManager();
@@ -104,8 +109,17 @@ public class DetailActivity extends AppCompatActivity implements DetailsFragment
 
     @Override
     protected void onResume() {
+
+        DetailsFragment detailsFragment = DetailsFragment.newInstance(recipeID, mJSONResult, currentStep );
+
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
+        fragmentManager.beginTransaction()
+                .replace(R.id.details_container, detailsFragment)
+                .commit();
+        Log.d(TAG, "onResume: " + currentStep);
         super.onResume();
-        Log.d(TAG, "onResume: ");
     }
 
     @Override
@@ -114,41 +128,29 @@ public class DetailActivity extends AppCompatActivity implements DetailsFragment
         if (resultCode == RESULT_OK && requestCode == REQEST_CODE) {
             Log.d(TAG, "onActivityResult: in");
             if (data.hasExtra(StepDetialsActivity.STEP_NUMBER_TO_PERANTE)) {
-                Toast.makeText(this, data.getExtras().getString(StepDetialsActivity.STEP_NUMBER_TO_PERANTE),
-                        Toast.LENGTH_SHORT).show();
+
+                currentStep = Integer.parseInt(data.getExtras().getString(StepDetialsActivity.STEP_NUMBER_TO_PERANTE));
+                Log.d(TAG, "onActivityResult: in" + currentStep);
+                /*DetailsFragment detailsFragment = DetailsFragment.newInstance(recipeID, mJSONResult,  );
+
+
+                FragmentManager fragmentManager = getSupportFragmentManager();
+
+                fragmentManager.beginTransaction()
+                        .replace(R.id.details_container, detailsFragment)
+                        .commit();*/
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    /*@Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.d(TAG, "onActivityResult: ");
-        if (resultCode == RESULT_OK ) {
-            if (data.hasExtra(StepDetialsActivity.STEP_NUMBER_TO_PERANTE)) {
-                Toast.makeText(this, data.getExtras().getString(StepDetialsActivity.STEP_NUMBER_TO_PERANTE),
-                        Toast.LENGTH_SHORT).show();
-            }
-        }
-    }*/
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        Log.d(TAG, "onKeyDown: ");
-        return super.onKeyDown(keyCode, event);
-    }
-
-    @Override
-    public void onBackPressed() {
-        Log.d(TAG, "onBackPressed: ");
-        super.onBackPressed();
-    }
 
     @Override
     public void onStepSelectListner(Step step) {
         mStep = step;
-        if (tablet){
-            StepDetailsFragment stepDetailsFragment =  StepDetailsFragment.newInstance(step);
+        if (tablet) {
+            StepDetailsFragment stepDetailsFragment = StepDetailsFragment.newInstance(step);
 
             FragmentManager fragmentManager = getSupportFragmentManager();
 
@@ -157,13 +159,13 @@ public class DetailActivity extends AppCompatActivity implements DetailsFragment
                     .commit();
 
 
-        }else {
+        } else {
             Intent intent = new Intent(this, StepDetialsActivity.class);
             Bundle extras = new Bundle();
             extras.putParcelable(StepRecycleView.INTENT_STEP_EXTRA_KEY, step);
-            extras.putString(MainActivity.INTENT_JSON_EXTRA_KEY,mJSONResult);
+            extras.putString(MainActivity.INTENT_JSON_EXTRA_KEY, mJSONResult);
             intent.putExtras(extras);
-            startActivityForResult(intent,REQEST_CODE);
+            startActivityForResult(intent, REQEST_CODE);
         }
     }
 

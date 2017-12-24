@@ -4,21 +4,22 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:id="@+id/land_linear_layout">
+
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/step_details_container"
         android:layout_width="match_parent"
         android:layout_weight="1"
-        android:layout_height="match_parent"
-        ></FrameLayout>
+        android:layout_height="match_parent"></FrameLayout>
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="@dimen/serprate_line"
-        android:background="@color/colorPrimaryLight"/>
+        android:background="@color/colorPrimaryLight" />
+
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="@dimen/serprate_line"
-        android:background="@color/colorPrimaryDark"/>
+        android:background="@color/colorPrimaryDark" />
 
 
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"

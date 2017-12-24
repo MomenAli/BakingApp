@@ -55,7 +55,7 @@ public class Ingredient {
     /* enum represent the units to measure
     *  the ingredient of the recipe
     *  */
-    public static enum Measure{
+    public static enum Measure {
         CUP("CUP", 0),
         TBLSP("TBLSP", 1),
         TSP("TSP", 2),
@@ -67,6 +67,7 @@ public class Ingredient {
 
         private String stringValue;
         private int intValue;
+
         private Measure(String toString, int value) {
             stringValue = toString;
             intValue = value;

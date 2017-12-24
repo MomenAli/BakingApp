@@ -24,19 +24,20 @@ import java.io.IOException;
 /**
  * Created by Momen Ali on 12/15/2017.
  */
-public class MainActivity extends AppCompatActivity  implements LoaderManager.LoaderCallbacks<String> , RecipeRecycleView.onRecipeClickListener {
+public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<String>, RecipeRecycleView.onRecipeClickListener {
     private static final String TAG = "MainActivity";
 
 
-    public static final String INTENT_ID_EXTRA_KEY  ="id";
-    public static final String INTENT_NAME_EXTRA_KEY  ="name";
-    public static final String INTENT_JSON_EXTRA_KEY  ="json";
+    public static final String INTENT_ID_EXTRA_KEY = "id";
+    public static final String INTENT_NAME_EXTRA_KEY = "name";
+    public static final String INTENT_JSON_EXTRA_KEY = "json";
 
     private static final int _LOADER_ID = 930;
     String mJSONResult;
     RecipeRecycleView mAdapter;
     RecyclerView recyclerView;
     Recipe[] recipes = new Recipe[]{new Recipe()};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,8 +72,8 @@ public class MainActivity extends AppCompatActivity  implements LoaderManager.Lo
             @Override
             public String loadInBackground() {
                 try {
-                     return NetworkUtils.getResponseFromHttpUrl();
-                }  catch (IOException e) {
+                    return NetworkUtils.getResponseFromHttpUrl();
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
                 return null;
@@ -82,9 +83,9 @@ public class MainActivity extends AppCompatActivity  implements LoaderManager.Lo
 
     @Override
     public void onLoadFinished(Loader<String> loader, String data) {
-        Log.d(TAG, "onLoadFinished: "+data);
-        if (data == null){
-            Toast.makeText(this,this.getResources().getString(R.string.networkError),Toast.LENGTH_LONG).show();
+        Log.d(TAG, "onLoadFinished: " + data);
+        if (data == null) {
+            Toast.makeText(this, this.getResources().getString(R.string.networkError), Toast.LENGTH_LONG).show();
             //return;
             try {
                 data = RecipeJSONUtils.loadJSONFromAsset(this.getBaseContext());
@@ -94,14 +95,14 @@ public class MainActivity extends AppCompatActivity  implements LoaderManager.Lo
         }
         mJSONResult = data;
         try {
-            recipes = RecipeJSONUtils.getRecipe(this , data);
+            recipes = RecipeJSONUtils.getRecipe(this, data);
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
         Log.d(TAG, "onLoadFinished: " + recipes[0].toString());
-        mAdapter = new RecipeRecycleView( this  ,recipes);
+        mAdapter = new RecipeRecycleView(this, recipes);
         mAdapter.setmClickListener(this);
         recyclerView.setAdapter(mAdapter);
     }
@@ -113,11 +114,11 @@ public class MainActivity extends AppCompatActivity  implements LoaderManager.Lo
 
     @Override
     public void onRecipeClickListener(Recipe recipe) {
-        Intent intent = new Intent(this,DetailActivity.class);
+        Intent intent = new Intent(this, DetailActivity.class);
         Bundle extras = new Bundle();
-        extras.putString(INTENT_NAME_EXTRA_KEY,recipe.getName());
-        extras.putInt(INTENT_ID_EXTRA_KEY,recipe.getId());
-        extras.putString(INTENT_JSON_EXTRA_KEY,mJSONResult);
+        extras.putString(INTENT_NAME_EXTRA_KEY, recipe.getName());
+        extras.putInt(INTENT_ID_EXTRA_KEY, recipe.getId());
+        extras.putString(INTENT_JSON_EXTRA_KEY, mJSONResult);
         intent.putExtras(extras);
         startActivity(intent);
     }

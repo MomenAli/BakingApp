@@ -21,7 +21,7 @@ import java.io.InputStream;
 public class RecipeJSONUtils {
     private static final String TAG = "RecipeJSONUtils";
 
-    public static Recipe[] getRecipe(Context context , String JsonStr) throws JSONException, IOException {
+    public static Recipe[] getRecipe(Context context, String JsonStr) throws JSONException, IOException {
         //definre the parameter of the page
 
 
@@ -143,7 +143,7 @@ public class RecipeJSONUtils {
             JSONObject recipeJSONItem = recipeJsonArray.getJSONObject(i);
             if (recipeJSONItem.getInt(OWM_ID) == recipeID) {
                 JSONArray stepjSONArray = recipeJSONItem.getJSONArray(OWM_STEPS);
-                if (stepID >= stepjSONArray.length())return  null;
+                if (stepID >= stepjSONArray.length()) return null;
                 JSONObject stepJSONItem = stepjSONArray.getJSONObject(stepID);
                 Log.d(TAG, "getIngredient: " + stepJSONItem.getString(OWM_SHORT_DESCRIPTION));
 
