@@ -1,6 +1,10 @@
 package com.example.momenali.bakingapp.ui;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
+import android.support.test.espresso.IdlingResource;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
@@ -9,8 +13,13 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.momenali.bakingapp.IdlingResource.SimpleIdlingResource;
 import com.example.momenali.bakingapp.R;
 import com.example.momenali.bakingapp.recipe.Recipe;
 import com.example.momenali.bakingapp.recipe.RecipeRecycleView;
@@ -38,10 +47,16 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     RecyclerView recyclerView;
     Recipe[] recipes = new Recipe[]{new Recipe()};
 
+
+    @Nullable
+    private SimpleIdlingResource mIdlingResource;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         // data to populate the RecyclerView with
 
 
@@ -58,9 +73,30 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.refresh){
+            LoaderManager loaderManager = getSupportLoaderManager();
+            Loader<String> SearchLoader = loaderManager.getLoader(_LOADER_ID);
+            if (SearchLoader == null) {
+                loaderManager.initLoader(_LOADER_ID, null, this);
+            } else {
+                loaderManager.restartLoader(_LOADER_ID, null, this);
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     public Loader<String> onCreateLoader(int id, Bundle args) {
+
         Log.d(TAG, "onCreateLoader: ");
         return new AsyncTaskLoader<String>(this) {
             @Override
@@ -86,12 +122,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         Log.d(TAG, "onLoadFinished: " + data);
         if (data == null) {
             Toast.makeText(this, this.getResources().getString(R.string.networkError), Toast.LENGTH_LONG).show();
-            //return;
-            try {
+            return;
+          /*  try {
                 data = RecipeJSONUtils.loadJSONFromAsset(this.getBaseContext());
             } catch (IOException e) {
                 e.printStackTrace();
-            }
+            }*/
         }
         mJSONResult = data;
         try {
@@ -105,6 +141,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         mAdapter = new RecipeRecycleView(this, recipes);
         mAdapter.setmClickListener(this);
         recyclerView.setAdapter(mAdapter);
+
+        if (mIdlingResource !=null)
+            mIdlingResource.setIdleState(true);
     }
 
     @Override
@@ -121,5 +160,15 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         extras.putString(INTENT_JSON_EXTRA_KEY, mJSONResult);
         intent.putExtras(extras);
         startActivity(intent);
+    }
+
+    @VisibleForTesting
+    @NonNull
+    public IdlingResource getIdlingResource() {
+        if (mIdlingResource == null) {
+            mIdlingResource = new SimpleIdlingResource();
+        }
+        mIdlingResource.setIdleState(false);
+        return mIdlingResource;
     }
 }

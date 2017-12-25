@@ -70,6 +70,7 @@ public class DetailActivity extends AppCompatActivity implements DetailsFragment
 
         FragmentManager fragmentManager;
         if (tablet) {
+            currentStep = 0;
             DetailsFragment detailsFragment = DetailsFragment.newInstance(recipeID, mJSONResult, 0);
 
 
