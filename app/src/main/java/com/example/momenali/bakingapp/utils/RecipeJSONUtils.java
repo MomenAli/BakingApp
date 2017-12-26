@@ -161,30 +161,6 @@ public class RecipeJSONUtils {
         return step;
     }
 
-    /* this function taken from stackoverFlow as reader fuction for the json file */
-    public static String loadJSONFromAsset(Context context) throws IOException {
-        String json = null;
-        //json = NetworkUtils.getResponseFromHttpUrl();
-        try {
-            InputStream is = context.getAssets().open("recipesList.json");
 
-            int size = is.available();
-
-            byte[] buffer = new byte[size];
-
-            is.read(buffer);
-
-            is.close();
-
-            json = new String(buffer, "UTF-8");
-
-
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            return null;
-        }
-        return json;
-
-    }
 
 }

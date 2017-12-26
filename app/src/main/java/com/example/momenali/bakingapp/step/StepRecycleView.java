@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.momenali.bakingapp.R;
+import com.example.momenali.bakingapp.ingredient.IngredientsRecycleView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -23,6 +24,9 @@ public class StepRecycleView extends RecyclerView.Adapter<StepRecycleView.ViewHo
     int selectedPostion = -1;
 
     StepClickListener mClickListener;
+
+
+    DoneLoadingListner mDoneLoadingListner;
 
     public static final String INTENT_RECIPE_ID_EXTRA_KEY = "recipeID";
     public static final String INTENT_STEP_ID_EXTRA_KEY = "stepID";
@@ -51,7 +55,10 @@ public class StepRecycleView extends RecyclerView.Adapter<StepRecycleView.ViewHo
     }
 
     public void setSelectedPostion(int selectedPostion) {
+        int oldItem = this.selectedPostion;
         this.selectedPostion = selectedPostion;
+        notifyItemChanged(oldItem);
+        notifyItemChanged(selectedPostion);
     }
 
     @Override
@@ -72,6 +79,7 @@ public class StepRecycleView extends RecyclerView.Adapter<StepRecycleView.ViewHo
             holder.step_background.setSelected(false);
             holder.tvShortDescription.setTextColor(mContext.getResources().getColor(R.color.black));
         }
+        if (mStep.length == position-1)mDoneLoadingListner.StepFetchingdone();
 
     }
 
@@ -126,5 +134,12 @@ public class StepRecycleView extends RecyclerView.Adapter<StepRecycleView.ViewHo
     // parent activity will implement this method to respond to click events
     public interface StepClickListener {
         void onStepItemClick(View view, int position);
+    }
+
+    public void SetDoneLoadingListner(DoneLoadingListner listner){
+        mDoneLoadingListner = listner;
+    }
+    public interface DoneLoadingListner{
+        public void StepFetchingdone();
     }
 }

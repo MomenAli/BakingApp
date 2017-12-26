@@ -15,7 +15,12 @@
         android:layout_weight="35">
 
     </com.google.android.exoplayer2.ui.SimpleExoPlayerView>
-
+    <ImageView
+        android:id="@+id/ivThumbnial"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:layout_weight="35"/>
     <TextView
         android:id="@+id/tvStepDescription"
         android:layout_width="match_parent"

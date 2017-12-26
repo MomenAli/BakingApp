@@ -1,7 +1,12 @@
 package com.example.momenali.bakingapp.ui;
 
 import android.content.Intent;
+import android.os.Parcelable;
+import android.os.PersistableBundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
+import android.support.test.espresso.IdlingResource;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,6 +16,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.example.momenali.bakingapp.IdlingResource.SimpleIdlingResource;
 import com.example.momenali.bakingapp.R;
 import com.example.momenali.bakingapp.ingredient.Ingredient;
 import com.example.momenali.bakingapp.step.Step;
@@ -30,9 +36,18 @@ public class DetailActivity extends AppCompatActivity implements DetailsFragment
 
     public static final String TAG = "DetailActivity";
     Boolean tablet;
+
+    DetailsFragment detailsFragment;
     int recipeID;
     String mJSONResult;
     int currentStep = -1;
+
+
+    @Nullable
+    private SimpleIdlingResource mIdlingResource;
+
+
+    private static final String STEP_POSTION_CODE = "postion_code";
     private static final int REQEST_CODE = 990;
 
     private static final String STEP_DETAILS_VISIBLE_KEY = "visible";
@@ -47,6 +62,7 @@ public class DetailActivity extends AppCompatActivity implements DetailsFragment
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -57,21 +73,25 @@ public class DetailActivity extends AppCompatActivity implements DetailsFragment
         recipeID = extras.getInt(MainActivity.INTENT_ID_EXTRA_KEY, 0);
 
         setTitle(extras.getString(MainActivity.INTENT_NAME_EXTRA_KEY));
+        MainActivity.mIdlingResource.setIdleState(true);
 
         mJSONResult = extras.getString(MainActivity.INTENT_JSON_EXTRA_KEY);
-
-        WidgetSyncUtils.startImmediateSync(this, recipeID, mJSONResult);
 
         LinearLayout linearLayout = (LinearLayout) findViewById(R.id.land_linear_layout);
         if (linearLayout != null) tablet = true;
         else tablet = false;
 
-        if (savedInstanceState != null) return;
+        if (savedInstanceState != null)return;
+
+
+
+        WidgetSyncUtils.startImmediateSync(this, recipeID, mJSONResult);
 
         FragmentManager fragmentManager;
         if (tablet) {
+            if (currentStep == -1)
             currentStep = 0;
-            DetailsFragment detailsFragment = DetailsFragment.newInstance(recipeID, mJSONResult, 0);
+            detailsFragment = DetailsFragment.newInstance(recipeID, mJSONResult, 0);
 
 
             fragmentManager = getSupportFragmentManager();
@@ -96,7 +116,7 @@ public class DetailActivity extends AppCompatActivity implements DetailsFragment
 
 
         } else {
-            DetailsFragment detailsFragment = DetailsFragment.newInstance(recipeID, mJSONResult, -1);
+            detailsFragment = DetailsFragment.newInstance(recipeID, mJSONResult, -1);
 
 
             fragmentManager = getSupportFragmentManager();
@@ -108,20 +128,18 @@ public class DetailActivity extends AppCompatActivity implements DetailsFragment
 
     }
 
+
     @Override
     protected void onResume() {
 
-        DetailsFragment detailsFragment = DetailsFragment.newInstance(recipeID, mJSONResult, currentStep );
-
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
-
-        fragmentManager.beginTransaction()
-                .replace(R.id.details_container, detailsFragment)
-                .commit();
+        if (currentStep != -1)
+            DetailsFragment.setSelectedStep(currentStep);
         Log.d(TAG, "onResume: " + currentStep);
         super.onResume();
     }
+
+
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -144,7 +162,6 @@ public class DetailActivity extends AppCompatActivity implements DetailsFragment
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
-
 
 
     @Override
@@ -170,4 +187,16 @@ public class DetailActivity extends AppCompatActivity implements DetailsFragment
         }
     }
 
+
+
+    @VisibleForTesting
+    @NonNull
+    public IdlingResource getIdlingResource() {
+        if (mIdlingResource == null) {
+            mIdlingResource = new SimpleIdlingResource();
+        }
+        mIdlingResource.setIdleState(false);
+        return mIdlingResource;
+    }
+    
 }

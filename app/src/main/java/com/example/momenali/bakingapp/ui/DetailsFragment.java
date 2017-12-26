@@ -34,15 +34,19 @@ import butterknife.ButterKnife;
  * Use the {@link DetailsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class DetailsFragment extends Fragment implements StepRecycleView.StepClickListener {
+public class DetailsFragment extends Fragment implements StepRecycleView.StepClickListener ,IngredientsRecycleView.DoneLoadingListner,StepRecycleView.DoneLoadingListner{
     private static final String TAG = "DetailsFragment";
 
     @BindView(R.id.svDetailsFragment)
     ScrollView svMain;
-    int stepPostion;
+    public static int stepPostion;
+    int currentScrollPostion;
+
+    Boolean stepFetchDone = false;
+    Boolean ingredFetchDone = false;
 
     IngredientsRecycleView mIngredAdapter;
-    StepRecycleView mStepAdapter;
+    static StepRecycleView mStepAdapter;
     OnDetailsFragmentListener mListener;
 
     String mJSONResult;
@@ -105,10 +109,10 @@ public class DetailsFragment extends Fragment implements StepRecycleView.StepCli
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+                             final Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View viewRoot = inflater.inflate(R.layout.fragment_details, container, false);
-        Log.d(TAG, "onCreateView: " + recipeID);
+        Log.d(TAG, "onCreateView: recipe number" + recipeID);
         /* get the Ingredients */
         try {
             ingredients = RecipeJSONUtils.getIngredients(viewRoot.getContext(), recipeID, mJSONResult);
@@ -136,16 +140,22 @@ public class DetailsFragment extends Fragment implements StepRecycleView.StepCli
 
         if (savedInstanceState != null) {
             mStepAdapter.setSelectedPostion(savedInstanceState.getInt(STEP_POSTION_KEY));
-            svMain.scrollTo(0, savedInstanceState.getInt(SCROLL_POSTION_KEY));
+            Log.d(TAG, "onCreateView: scroll postion "+savedInstanceState.getInt(SCROLL_POSTION_KEY));
+            currentScrollPostion = savedInstanceState.getInt(SCROLL_POSTION_KEY);
         }
 
         return viewRoot;
     }
 
+    public static void setSelectedStep(int selectedStep){
+        stepPostion = selectedStep;
+        mStepAdapter.setSelectedPostion(selectedStep);
+    }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         outState.putInt(SCROLL_POSTION_KEY, svMain.getScrollY());
+        Log.d(TAG, "onSaveInstanceState: "+svMain.getScrollY());
         outState.putInt(STEP_POSTION_KEY, mStepAdapter.getSelectedPostion());
         super.onSaveInstanceState(outState);
     }
@@ -173,6 +183,35 @@ public class DetailsFragment extends Fragment implements StepRecycleView.StepCli
         Log.d(TAG, "onStepItemClick: ");
         mListener.onStepSelectListner(steps[position]);
     }
+
+    @Override
+    public void IngredFetchingdone() {
+        ingredFetchDone = true;
+        Log.d(TAG, "IngredFetchingdone: "+ currentScrollPostion);
+        if (ingredFetchDone && stepFetchDone){
+            svMain.post(new Runnable() {
+                @Override
+                public void run() {
+                    svMain.scrollTo(0,currentScrollPostion);
+                }
+            });
+        }
+    }
+
+    @Override
+    public void StepFetchingdone() {
+        stepFetchDone = true;
+        Log.d(TAG, "StepFetchingdone: " + currentScrollPostion);
+        if (ingredFetchDone && stepFetchDone){
+            svMain.post(new Runnable() {
+                @Override
+                public void run() {
+                    svMain.scrollTo(0,currentScrollPostion);
+                }
+            });
+        }
+    }
+
 
     /**
      * This interface must be implemented by activities that contain this

@@ -55,6 +55,7 @@ class GridRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
             ingredients = RecipeJSONUtils.getIngredients(mContext, recipeID, mJSONResult);
     }
 
+
     @Override
     public void onCreate() {
 

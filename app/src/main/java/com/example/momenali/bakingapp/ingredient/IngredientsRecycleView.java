@@ -20,6 +20,7 @@ import butterknife.ButterKnife;
 public class IngredientsRecycleView extends RecyclerView.Adapter<IngredientsRecycleView.ViewHolder> {
     private static final String TAG = "IngredientsRecycleView";
 
+    DoneLoadingListner mDoneLoadingListner;
     private Ingredient[] mIngredient = new Ingredient[0];
     private LayoutInflater mInflater;
 
@@ -27,6 +28,7 @@ public class IngredientsRecycleView extends RecyclerView.Adapter<IngredientsRecy
         this.mIngredient = mIngredient;
         this.mInflater = LayoutInflater.from(context);
     }
+
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -42,6 +44,7 @@ public class IngredientsRecycleView extends RecyclerView.Adapter<IngredientsRecy
         holder.ingredientName.setText(mIngredient[position].getIngredientName());
         holder.IngredQuantity.setText(String.valueOf(mIngredient[position].getQuantity()));
         holder.IngredUnit.setText(mIngredient[position].getMeasure().toString());
+        if (mIngredient.length == (position-1))mDoneLoadingListner.IngredFetchingdone();
     }
 
     @Override
@@ -68,5 +71,11 @@ public class IngredientsRecycleView extends RecyclerView.Adapter<IngredientsRecy
         public void onClick(View v) {
             Log.d(TAG, "onClick: iye");
         }
+    }
+    public void SetDoneLoadingListner(DoneLoadingListner listner){
+        mDoneLoadingListner = listner;
+    }
+    public interface DoneLoadingListner{
+        public void IngredFetchingdone();
     }
 }

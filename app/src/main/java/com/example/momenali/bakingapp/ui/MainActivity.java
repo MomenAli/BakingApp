@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
 
     @Nullable
-    private SimpleIdlingResource mIdlingResource;
+    public static SimpleIdlingResource mIdlingResource;
 
 
     @Override
@@ -58,7 +58,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         setContentView(R.layout.activity_main);
 
         // data to populate the RecyclerView with
-
 
         // set up the RecyclerView
         recyclerView = (RecyclerView) findViewById(R.id.rvMain);
@@ -123,11 +122,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         if (data == null) {
             Toast.makeText(this, this.getResources().getString(R.string.networkError), Toast.LENGTH_LONG).show();
             return;
-          /*  try {
-                data = RecipeJSONUtils.loadJSONFromAsset(this.getBaseContext());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }*/
+
         }
         mJSONResult = data;
         try {
@@ -153,6 +148,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public void onRecipeClickListener(Recipe recipe) {
+
         Intent intent = new Intent(this, DetailActivity.class);
         Bundle extras = new Bundle();
         extras.putString(INTENT_NAME_EXTRA_KEY, recipe.getName());
@@ -160,6 +156,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         extras.putString(INTENT_JSON_EXTRA_KEY, mJSONResult);
         intent.putExtras(extras);
         startActivity(intent);
+        mIdlingResource.setIdleState(false);
     }
 
     @VisibleForTesting

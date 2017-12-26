@@ -4,12 +4,15 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.momenali.bakingapp.step.Step;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.ExoPlayerFactory;
@@ -23,6 +26,7 @@ import com.google.android.exoplayer2.trackselection.TrackSelector;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
+import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -54,6 +58,10 @@ public class StepDetailsFragment extends Fragment {
     long currentVideoPostion;
     @BindView(R.id.player_View)
     SimpleExoPlayerView mPlayerView;
+
+    @Nullable
+    @BindView(R.id.ivThumbnial)
+    ImageView ivThumbnial;
 
     @Nullable
     @BindView(R.id.tvStepDescription)
@@ -107,32 +115,28 @@ public class StepDetailsFragment extends Fragment {
                 mExoPlayer.seekTo(currentVideoPostion);
         }
         Log.d(TAG, "onCreateView: " + currentVideoPostion);
-        /*if(landScape = Configuration.ORIENTATION_LANDSCAPE == this.getResources().getConfiguration().orientation) {
-            LinearLayout linearLayout = (LinearLayout) container.findViewById(R.id.land_linear_layout);
-            if (linearLayout != null) tabletLandSingle = false;
-            else tabletLandSingle = true;
-            if (tabletLandSingle){
-                if ((!mStep.getVideoURL().equals(""))||(!mStep.getThumbnailURL().equals(""))){
-                    tvStepDescription.setVisibility(View.GONE);
-                }
-            }
-        }*/
+
         return rootView;
     }
 
     public void setUpVideo() {
-        String videoURL;
 
-        if (mStep.getVideoURL().equals("") && mStep.getThumbnailURL().equals("")) {
+
+        if (TextUtils.isEmpty(mStep.getVideoURL()) && TextUtils.isEmpty(mStep.getThumbnailURL())){
             mPlayerView.setVisibility(View.GONE);
+            ivThumbnial.setVisibility(View.GONE);
             tvStepDescription.setVisibility(View.VISIBLE);
         } else {
-            if (mStep.getVideoURL().equals("")) {
-                videoURL = mStep.getThumbnailURL();
+            if (TextUtils.isEmpty(mStep.getVideoURL())) {
+                mPlayerView.setVisibility(View.GONE);
+                ivThumbnial.setVisibility(View.VISIBLE);
+                Glide.with(getContext()).load(mStep.getThumbnailURL()).into(ivThumbnial);
+
             } else {
-                videoURL = mStep.getVideoURL();
+                ivThumbnial.setVisibility(View.GONE);
+                mPlayerView.setVisibility(View.VISIBLE);
+                initializePlayer(Uri.parse(mStep.getVideoURL()));
             }
-            initializePlayer(Uri.parse(videoURL));
         }
     }
 

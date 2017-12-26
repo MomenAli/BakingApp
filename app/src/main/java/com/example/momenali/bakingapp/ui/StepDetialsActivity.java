@@ -1,6 +1,8 @@
 package com.example.momenali.bakingapp.ui;
 
 import android.content.Intent;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -55,7 +57,7 @@ public class StepDetialsActivity extends AppCompatActivity {
     public void getPreviousStep(View view) {
 
         if (mStep.getId().equals("0")) {
-            Toast.makeText(getBaseContext(), getBaseContext().getResources().getString(R.string.first_step_notification), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.first_step_notification), Toast.LENGTH_LONG).show();
         }
 
         try {
