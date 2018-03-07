@@ -1,10 +1,10 @@
 # BakingApp
-this app is my Second app in Udacity Nanodegree.
+This app is my Second app in Udacity Nanodegree.
 
 Created with many useful framework like butterknife for Binding Views,
 Picasso and Glide for smooth fetching the images from the web, and espresso for testing.
 
-the final preview of the app.
+The final preview of the app.
 
 Main Activity that have all the recipes.
 
